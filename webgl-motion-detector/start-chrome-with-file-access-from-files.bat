@@ -1,0 +1,1 @@
+start chrome.exe --enable-media-stream --allow-file-access-from-files

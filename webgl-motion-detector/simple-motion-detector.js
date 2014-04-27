@@ -105,7 +105,7 @@ function SimpleMotionDetector( object ) {
 								  
 			video = document.createElement( 'video' );
 			if ( navigator.getUserMedia ) { 
-	 			navigator.getUserMedia( {audio: true, video: true}, 
+	 			navigator.getUserMedia( {audio: false, video: true}, 
 					function( stream ) {
 	 				    video.src = window.URL.createObjectURL( stream );
 						APP.videoWidth = PIXELS_HORIZONTAL;

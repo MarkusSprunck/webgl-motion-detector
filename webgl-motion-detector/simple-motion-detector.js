@@ -56,18 +56,18 @@ function SimpleMotionDetector( object ) {
 		this.object = object;	
 		
 		// amplification factor for rotation (one is almost natural)
-		this.amplificationAlpha = 2.5;
-		this.amplificationGamma = 2.5;	
+		this.amplificationAlpha = 3.0;
+		this.amplificationGamma = 3.0;	
 		
 		// in degrees
-		this.offsetAlpha = 34.0;		
-		this.offsetGamma = 10.0;
+		this.offsetAlpha = 15.0;		
+		this.offsetGamma = 0.0;
 		
 		// just the upper part of the video should be detected
-		this.detectionBorder = 0.75;
+		this.detectionBorder = 0.66;
 		
 		// threshold of detected pixels
-		this.pixelThreshold = 120;
+		this.pixelThreshold = 137;
 		
 		// average of all x positions of detected motion 
 		this.averageX = new MovingAverager( 500 );

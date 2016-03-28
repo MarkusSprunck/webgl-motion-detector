@@ -1,50 +1,55 @@
 <!doctype html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
- 	  <style>
-         a { color:#009de9; font-family: Helvetica; font-style: normal; font-size:10pt; text-align:left; }	        
-         h1 { color:#FFF; font-family: Helvetica; font-size:14pt; text-align:left;  padding-top:0px; padding-left:0px; padding-bottom:10px; margin:0;}	        
-         .text { color:#FFF; font-family: Helvetica; font-size:10pt; text-align:left;  padding-left:0px; padding-right:10px;}	        
-		 .main { background:#252525; padding:0px; }   
-    </style>
-    <title>WebGL Motion Detector</title>
-   </head>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<style>
+.main {
+	background: #252525;
+	padding: 0px;
+}
 
-  <body class="main">
-   
-    <script type="text/javascript" src="moving-averager.js"></script>
+.text {
+	color: #CCC;
+	font: 14px 'Lucida Grande', sans-serif;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 4px;
+}
+
+a {
+	color: #009de9;
+	font: 14px 'Lucida Grande', sans-serif;
+	text-align: right;
+}
+</style>
+<title>WebGL Motion Detector</title>
+</head>
+
+<body class="main">
+
+    <div align="right" class='text'>
+		WebGL Motion Detector to Rotate 3D Graphic, <a
+			href="https://plus.google.com/u/0/117292523089281814301?rel=author">by
+			Markus Sprunck</a>
+	</div>
+
+	<div id="drawingArea"></div>
+
+	<script type="text/javascript" src="moving-averager.js"></script>
 	<script type="text/javascript" src="request-animation-frame.js"></script>
-	<script type="text/javascript" src="dat.gui.min.js"></script>	
- 	<script type="text/javascript" src="simple-motion-detector.js"></script>
+	<script type="text/javascript" src="dat.gui.min.js"></script>
+	<script type="text/javascript" src="simple-motion-detector.js"></script>
 	<script type="text/javascript" src="detector.js"></script>
 	<script type="text/javascript" src="glfx-neu.js"></script>
-	<script type="text/javascript" src="three.js"></script>	
-       
-    <div id="header"  >   
-      	<h1>Extremely Fast and Simple WebGL Motion Detector to Rotate 3D Graphic</h1>
-	  
-      	<table>
-      		<tr>
-      			<div class="text">
-    				<a href="https://plus.google.com/u/0/117292523089281814301?rel=author">by Markus Sprunck</a><p/>
-    				In this experiment the browser captures the video signal and compares subsequent frames 
-    				to detect motion of the user. With this signal the program finds the viewpoint and rotates 
-    				the 3D cube. The algorithm is very simple, robust and extremely fast compared with classic 
-    				face detection approaches. Many thanks to <i>Pierre-Loic Doulcet</i> for his inspiring chrome 
-    				experiment <i>Pixelate Yourself</i>. Just allow this site to access your camera and move your head.
-    				The implementation is based on Three.js (r73). You may read more and get the source code 
-                    <a href="http://www.sw-engineering-candies.com/blog-1/extremely-fast-and-simple-webgl-motion-detector-to-rotate-3d-graphic">here</a>.  	    				
-    				</a>				
-    		    </div>
-      		</tr>
-      	</table>
-    </div>
-      
-    <div id="drawingArea" style="position:absolute; top:155px;"></div>
-  
-	<script type="text/javascript" src="webgl_motion_detector.js"></script> 
-           
-  </body>
+	<script type="text/javascript" src="three.js"></script>
+	
+    <div align="right" class='text'>
+		find sources on <a href="https://github.com/MarkusSprunck/webgl-motion-detector.git">GitHub</a>
+	</div>
+
+	<script type="text/javascript" src="webgl_motion_detector.js"></script>
+
+</body>
 </html>

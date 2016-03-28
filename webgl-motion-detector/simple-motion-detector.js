@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013, Markus Sprunck
+ * Copyright (C) 2013-2016, Markus Sprunck
  *
  * All rights reserved.
  *
@@ -38,7 +38,7 @@
  * 
  * Captures the video signal and compares single frames to 
  * detect motion. The center of this motion is used to find 
- * the viewpoint of the user. With this viewpoint the camera 
+ * the viewpoint of the user. With this viewpoint the g_camera 
  * position will be rotated. 
  *
  */
@@ -52,19 +52,19 @@ function SimpleMotionDetector( object ) {
 		var WIDTH =  245; 
 		var HEIGHT = 200; 
 	
-		// expected to be THREE.camera object
+		// expected to be THREE.g_camera object
 		this.object = object;	
 		
 		// amplification factor for rotation (one is almost natural)
-		this.amplificationAlpha = 3.0;
-		this.amplificationGamma = 3.0;	
+		this.amplificationAlpha = 2.0;
+		this.amplificationGamma = 2.0;	
 		
 		// in degrees
-		this.offsetAlpha = 15.0;		
-		this.offsetGamma = 0.0;
+		this.offsetAlpha = 20.0;		
+		this.offsetGamma = 40.0;
 		
 		// just the upper part of the video should be detected
-		this.detectionBorder = 0.66;
+		this.detectionBorder = 0.85;
 		
 		// threshold of detected pixels
 		this.pixelThreshold = 137;
@@ -85,8 +85,9 @@ function SimpleMotionDetector( object ) {
 		canvas.width = WIDTH;
 		canvas.height = HEIGHT;
 		canvas.style.position = 'absolute';
-		canvas.style.left = '0px';
-		canvas.style.top = '0px';
+		canvas.style.left = '10px';
+		canvas.style.bottom = '10px';
+		canvas.style.opacity = 0.4;
 		
 		var videoContext = videoCanvas.getContext( '2d' );
 		var APP = {};
@@ -183,16 +184,16 @@ function SimpleMotionDetector( object ) {
 			var distanceFromMiddleY = ( PIXELS_VERTICAL / 2 - this.averageY.getValue( ) / HEIGHT * PIXELS_VERTICAL );
 			var gamma = this.amplificationGamma * Math.asin( distanceFromMiddleY / PIXELS_VERTICAL ) + Math.PI / 180 *this.offsetGamma ;			
 			
-			var x = camera.position.x;
-			var z = camera.position.z;
-			var y = camera.position.y;
+			var x = g_camera.position.x;
+			var z = g_camera.position.z;
+			var y = g_camera.position.y;
 			var radius = Math.sqrt( x*x + y*y + z*z );
 				
-			camera.position.x = radius * Math.sin( alpha )* Math.cos( gamma );
-			camera.position.z = radius * Math.cos( alpha )* Math.cos( gamma );
-			camera.position.y = radius * Math.sin( gamma );
+			g_camera.position.x = radius * Math.sin( alpha )* Math.cos( gamma );
+			g_camera.position.z = radius * Math.cos( alpha )* Math.cos( gamma );
+			g_camera.position.y = radius * Math.sin( gamma );
 		
-			camera.lookAt( scene.position ); 
+			g_camera.lookAt( g_scene.position ); 
 		}
 		
 		

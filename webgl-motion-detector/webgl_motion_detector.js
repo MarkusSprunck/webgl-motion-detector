@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013-2015, Markus Sprunck
+ * Copyright (C) 2013-2016, Markus Sprunck
  * 
  * All rights reserved.
  * 
@@ -27,7 +27,27 @@
  * 
  */
 
-var stats, camera, scene, renderer;
+/**
+ * Global constants
+ */
+var BORDER_LEFT = 10;
+var BORDER_TOP = 10;
+var BORDER_RIGHT = 10;
+var BORDER_BOTTOM = 60;
+
+/**
+ * Global variables for rendering
+ */
+var g_panelWidthWebGL;
+var g_panelHeightWebGL;
+var g_scene;
+var g_cube_wireframe;
+var g_camera;
+var g_renderer;
+var g_control;
+var g_gui;
+
+var g_stats, g_camera, g_scene, g_renderer;
 
 if (Detector.webgl) {
 	init();
@@ -36,19 +56,25 @@ if (Detector.webgl) {
 	document.body.appendChild(Detector.getWebGLErrorMessage());
 }
 
+function resetCamera() {
+	"use strict";
+	g_camera.lookAt(new THREE.Vector3(0, 0, 0));
+}
+
 function init() {
 
 	// add container
-	scene = new THREE.Scene();
+	g_scene = new THREE.Scene();
 	var container = document.getElementById('drawingArea');
-
+	container.style.background = "#252525";
+	
 	// add light
 	var ambient = new THREE.AmbientLight(0xa0a0a0);
-	scene.add(ambient);
+	g_scene.add(ambient);
 
 	var directionalLight = new THREE.DirectionalLight(0xffeedd);
 	directionalLight.position.set(-10, 10, 100);
-	scene.add(directionalLight);
+	g_scene.add(directionalLight);
 
 	// add cube with six textures
 	var cubeMaterials = [];
@@ -90,7 +116,7 @@ function init() {
 							cubeMaterials.push(mat);
 
 							// now all textures have been loaded
-							scene.add(cube);
+							g_scene.add(cube);
 						});
 					});
 				});
@@ -99,62 +125,75 @@ function init() {
 
 	});
 
-	var geometry = new THREE.BoxGeometry(4, 4, 4);
+	var geometry = new THREE.BoxGeometry(3, 3, 3);
 	var material = new THREE.MultiMaterial(cubeMaterials);
 	var cube = new THREE.Mesh(geometry, material);
 
-	// add camera
-	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
-	scene.add(camera);
-	camera.position.set(0, 0, 10);
-	camera.lookAt(scene.position);
+	// add g_camera
+	g_camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
+	g_scene.add(g_camera);
+	g_camera.position.set(0, 0, 10);
+	g_camera.lookAt(g_scene.position);
 
-	// add renderer
-	renderer = new THREE.WebGLRenderer();
-	renderer.setClearColor(0x0a0a0a, 1);
+	// add g_renderer
+	g_renderer = new THREE.WebGLRenderer();
+	g_renderer.setClearColor(0x252525, 1);
 
 	// Support window resize
 	var resizeCallback = function() {
-		var offsetHeight = 150;
-		var devicePixelRatio = window.devicePixelRatio || 1;
-		var width = window.innerWidth * devicePixelRatio - 25;
-		var height = (window.innerHeight - offsetHeight - 10) * devicePixelRatio;
-		renderer.setSize(width, height);
-		renderer.domElement.style.width = width + 'px';
-		renderer.domElement.style.height = height + 'px';
-		camera.updateProjectionMatrix();
+		  g_camera.aspect = window.innerWidth / window.innerHeight;
+		  g_camera.updateProjectionMatrix();
+		  g_renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 	window.addEventListener('resize', resizeCallback, false);
 	resizeCallback();
-	container.appendChild(renderer.domElement);
-
+	container.appendChild(g_renderer.domElement);
+	
 	// add motion detector
-	var motionDetector = new SimpleMotionDetector(camera);
+	var motionDetector = new SimpleMotionDetector(g_camera);
 	motionDetector.domElement.style.position = 'absolute';
-	motionDetector.domElement.style.left = '10px';
-	motionDetector.domElement.style.top = '10px';
+	motionDetector.domElement.style.right = '10px';
+	motionDetector.domElement.style.bottom = '10px';
 	motionDetector.init();
 	container.appendChild(motionDetector.domElement);
 
 	// dialog to change parameters
-	var gui = new dat.GUI({
+	g_gui = new dat.GUI({
 		autoPlace : false
 	});
-	gui.add(motionDetector, 'offsetAlpha', -45.0, 45.0, 5).name('offset α');
-	gui.add(motionDetector, 'offsetGamma', -45.0, 45.0, 5).name('offset γ');
-	gui.add(motionDetector, 'amplificationAlpha', 1.0, 5.0, 0.5).name('amplification α');
-	gui.add(motionDetector, 'amplificationGamma', 1.0, 5.0, 0.5).name('amplification γ');
-	gui.add(motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('detection border');
-	gui.add(motionDetector, 'pixelThreshold', 100, 250, 10).name('pixel threshold');
-	gui.add(motionDetector.averageX, 'maxLength', 200, 2000, 100).name('averager X');
-	gui.add(motionDetector.averageY, 'maxLength', 200, 2000, 100).name('averager Y');
-	gui.domElement.style.position = 'absolute';
-	gui.domElement.style.left = '10px';
-	gui.domElement.style.top = '210px';
-	container.appendChild(gui.domElement);
+	g_gui.add(motionDetector, 'offsetAlpha', -45.0, 45.0, 5).name('offset α');
+	g_gui.add(motionDetector, 'offsetGamma', -45.0, 45.0, 5).name('offset γ');
+	g_gui.add(motionDetector, 'amplificationAlpha', 1.0, 5.0, 0.5).name('amplification α');
+	g_gui.add(motionDetector, 'amplificationGamma', 1.0, 5.0, 0.5).name('amplification γ');
+	g_gui.add(motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('detection border');
+	g_gui.add(motionDetector, 'pixelThreshold', 100, 250, 10).name('pixel threshold');
+	g_gui.add(motionDetector.averageX, 'maxLength', 200, 2000, 100).name('averager X');
+	g_gui.add(motionDetector.averageY, 'maxLength', 200, 2000, 100).name('averager Y');
+	g_gui.domElement.style.position = 'absolute';
+	g_gui.domElement.style.left = '10px';
+	g_gui.domElement.style.top = '10px';
+	g_gui.close();
+	container.appendChild(g_gui.domElement);
+
+	var resizeCallback = function() {
+		g_panelWidthWebGL = window.innerWidth - BORDER_RIGHT - BORDER_LEFT;
+		g_panelHeightWebGL = window.innerHeight - BORDER_BOTTOM - BORDER_TOP;
+		var devicePixelRatio = window.devicePixelRatio || 1;
+		g_renderer.setSize(g_panelWidthWebGL * devicePixelRatio,
+				g_panelHeightWebGL * devicePixelRatio);
+		g_renderer.domElement.style.width = g_panelWidthWebGL + 'px';
+		g_renderer.domElement.style.height = g_panelHeightWebGL + 'px';
+		resetCamera();
+		g_camera.updateProjectionMatrix();
+		g_gui.domElement.style.position = 'absolute';
+		g_gui.domElement.style.left = '' + (BORDER_LEFT) + 'px';
+		g_gui.domElement.style.top = '' + (BORDER_TOP) + 'px';
+	};
+	window.addEventListener('resize', resizeCallback, false);
+	resizeCallback();
 }
 
 function animate() {
 	requestAnimationFrame(animate);
-	renderer.render(scene, camera);
+	g_renderer.render(g_scene, g_camera);
 }

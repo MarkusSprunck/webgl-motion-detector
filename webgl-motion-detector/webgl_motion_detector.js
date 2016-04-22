@@ -161,12 +161,16 @@ function init() {
 	g_gui = new dat.GUI({
 		autoPlace : false
 	});
+	 
+	g_gui.add(motionDetector, 'showCanvas').name('show canvas').onChange(function(value) {
+		document.getElementById( 'video_canvas' ).hidden = !value;
+	});
 	g_gui.add(motionDetector, 'offsetAlpha', -45.0, 45.0, 5).name('offset α');
 	g_gui.add(motionDetector, 'offsetGamma', -45.0, 45.0, 5).name('offset γ');
-	g_gui.add(motionDetector, 'amplificationAlpha', 1.0, 5.0, 0.5).name('amplification α');
-	g_gui.add(motionDetector, 'amplificationGamma', 1.0, 5.0, 0.5).name('amplification γ');
+	g_gui.add(motionDetector, 'amplificationAlpha', 0.1, 1.0, 0.1).name('amplification α');
+	g_gui.add(motionDetector, 'amplificationGamma', 0.1, 1.0, 0.1).name('amplification γ');
 	g_gui.add(motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('detection border');
-	g_gui.add(motionDetector, 'pixelThreshold', 100, 250, 10).name('pixel threshold');
+	g_gui.add(motionDetector, 'pixelThreshold', 50, 250, 10).name('pixel threshold');
 	g_gui.add(motionDetector.averageX, 'maxLength', 200, 2000, 100).name('averager X');
 	g_gui.add(motionDetector.averageY, 'maxLength', 200, 2000, 100).name('averager Y');
 	g_gui.domElement.style.position = 'absolute';

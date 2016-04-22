@@ -56,18 +56,18 @@ function SimpleMotionDetector( object ) {
 		this.object = object;	
 		
 		// amplification factor for rotation (one is almost natural)
-		this.amplificationAlpha = 2.0;
-		this.amplificationGamma = 2.0;	
+		this.amplificationAlpha = 0.4;
+		this.amplificationGamma = 0.4;	
 		
 		// in degrees
-		this.offsetAlpha = 20.0;		
-		this.offsetGamma = 40.0;
+		this.offsetAlpha = 0.0;		
+		this.offsetGamma = 0.0;
 		
 		// just the upper part of the video should be detected
 		this.detectionBorder = 0.85;
 		
 		// threshold of detected pixels
-		this.pixelThreshold = 137;
+		this.pixelThreshold = 128;
 		
 		// average of all x positions of detected motion 
 		this.averageX = new MovingAverager( 500 );
@@ -76,8 +76,11 @@ function SimpleMotionDetector( object ) {
 		// average of all y positions of detected motion 
 		this.averageY = new MovingAverager( 500 );
 		this.averageY.setValue( HEIGHT / 2 );		
+		
+		// show canvas
+		this.showCanvas = false;
 			
-		var videoCanvas = document.createElement( 'canvas' );
+		videoCanvas = document.createElement( 'canvas' );
 		videoCanvas.width = PIXELS_HORIZONTAL;
 		videoCanvas.height = PIXELS_VERTICAL;
 
@@ -87,7 +90,9 @@ function SimpleMotionDetector( object ) {
 		canvas.style.position = 'absolute';
 		canvas.style.left = '10px';
 		canvas.style.bottom = '10px';
-		canvas.style.opacity = 0.4;
+		canvas.style.opacity = 1.0;
+		canvas.hidden = !this.showCanvas;
+		canvas.id="video_canvas";
 		
 		var videoContext = videoCanvas.getContext( '2d' );
 		var APP = {};
@@ -179,10 +184,10 @@ function SimpleMotionDetector( object ) {
 
 		SimpleMotionDetector.prototype.updateCameraPosition = function() {		
     		var distanceFromMiddleX = this.averageX.getValue( ) * PIXELS_HORIZONTAL / WIDTH - PIXELS_HORIZONTAL / 2;
-			var alpha = this.amplificationAlpha * Math.asin( distanceFromMiddleX / PIXELS_HORIZONTAL )+ Math.PI / 180 *this.offsetAlpha ;	
+			var alpha = - this.amplificationAlpha * Math.asin( distanceFromMiddleX / PIXELS_HORIZONTAL )+ Math.PI / 180 *this.offsetAlpha ;	
 	
 			var distanceFromMiddleY = ( PIXELS_VERTICAL / 2 - this.averageY.getValue( ) / HEIGHT * PIXELS_VERTICAL );
-			var gamma = this.amplificationGamma * Math.asin( distanceFromMiddleY / PIXELS_VERTICAL ) + Math.PI / 180 *this.offsetGamma ;			
+			var gamma = - this.amplificationGamma * Math.asin( distanceFromMiddleY / PIXELS_VERTICAL ) + Math.PI / 180 *this.offsetGamma ;			
 			
 			var x = g_camera.position.x;
 			var z = g_camera.position.z;

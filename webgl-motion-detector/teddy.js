@@ -64,7 +64,7 @@ Teddy = function() {
 	var legGeom = new THREE.CylinderGeometry(20, 40, 80, 12);
 	modifier.modify(legGeom);
 
-	var armGeom = new THREE.CylinderGeometry(20, 30, 90, 12);
+	var armGeom = new THREE.CylinderGeometry(30, 25, 90, 12);
 	armGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 25, 0));
 	modifier.modify(armGeom);
 
@@ -84,7 +84,7 @@ Teddy = function() {
 	var irisGeom = new THREE.CylinderGeometry(5, 5, 5, 20);
 	var noseGeom = new THREE.CylinderGeometry(10, 10, 6, 20);
 	var mouthTopGeom = new THREE.CylinderGeometry(4, 4, 15, 20);
-	var mouthGeometry = new THREE.TorusGeometry(12, 4, 20, 20, Math.PI);
+	var mouthGeometry = new THREE.TorusGeometry(12, 4, 20, 20, Math.PI / 4 * 3);
 
 	// Create all meshes
 
@@ -93,7 +93,6 @@ Teddy = function() {
 	this.body = new THREE.Mesh(bodyGeom, this.brownMaterial);
 	this.body.position.z = bodyPosZ;
 	this.body.position.y = 110;
-	// this.body.rotation.x = Math.PI / 4;
 
 	// left leg
 	var legDistance = 50;
@@ -175,6 +174,7 @@ Teddy = function() {
 	this.mouthLeft.position.y = -noseTopPosition - 20;
 	this.mouthLeft.position.x = -12;
 	this.mouthLeft.rotation.z = Math.PI;
+	this.mouthLeft.rotation.y = -Math.PI;
 
 	// mouth right side
 	this.mouthRight = new THREE.Mesh(mouthGeometry, this.blackMaterial);
@@ -256,6 +256,10 @@ Teddy.prototype.move = function(xTarget, yTarget, xTargetMaxAbs, yTargetMaxAbs) 
 	this.tHeadPosX = calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, 10, -10);
 	this.tHeadPosY = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, 220, 240);
 	this.tHeadPosZ = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, -30, 30);
+
+	var irisScaleFactor = Math.max(1.0, Math.min(1.5, Math.pow(xTarget * xTarget + yTarget * yTarget, 0.5) / 50.0 + 0.5));
+	this.leftIris.scale.set(irisScaleFactor, 1, irisScaleFactor);
+	this.rightIris.scale.set(irisScaleFactor, 1, irisScaleFactor);
 
 	this.tArmRotationRight = -calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, Math.PI / 4, Math.PI);
 	this.tArmRotationLeft = calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, Math.PI / 4, Math.PI);

@@ -65,8 +65,8 @@ function init() {
 	WIDTH = window.innerWidth;
 	g_camera = new THREE.PerspectiveCamera(50, WIDTH / HEIGHT, 1, 2000);
 	g_scene.add(g_camera);
-	g_camera.position.set(0, 200, 800);
-	g_camera.lookAt(g_scene.position);
+	g_camera.position.set(0, 150, 500);
+	g_camera.lookAt(0, 150, 0);
 
 	// Add renderer
 	g_renderer = new THREE.WebGLRenderer({

@@ -100,10 +100,10 @@ function init() {
 	g_gui.add(g_motionDetector, 'showCanvas').name('show canvas').onChange(function(value) {
 		document.getElementById('video_canvas').hidden = !value;
 	});
-	g_gui.add(g_motionDetector, 'offsetAlpha', -450.0, 450.0, 10).name('offset α');
-	g_gui.add(g_motionDetector, 'offsetGamma', -450.0, 450.0, 10).name('offset γ');
-	g_gui.add(g_motionDetector, 'amplificationAlpha', 0.1, 2.0, 0.1).name('amplification α');
-	g_gui.add(g_motionDetector, 'amplificationGamma', 0.1, 2.0, 0.1).name('amplification γ');
+	g_gui.add(g_motionDetector, 'offsetAlpha', -100.0, 0.0, 10).name('offset α');
+	g_gui.add(g_motionDetector, 'offsetGamma', -100.0, 0.0, 10).name('offset γ');
+	g_gui.add(g_motionDetector, 'amplificationAlpha', 0.1, 0.8, 0.1).name('amplification α');
+	g_gui.add(g_motionDetector, 'amplificationGamma', 0.1, 0.8, 0.1).name('amplification γ');
 	g_gui.add(g_motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('detection border');
 	g_gui.add(g_motionDetector, 'pixelThreshold', 50, 250, 10).name('pixel threshold');
 	g_gui.add(g_motionDetector.averageX, 'maxLength', 200, 2000, 100).name('averager X');

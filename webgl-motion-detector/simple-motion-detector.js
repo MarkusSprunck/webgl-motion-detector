@@ -60,7 +60,7 @@ function SimpleMotionDetector( object ) {
 		this.amplificationGamma = 0.4;	
 		
 		// in degrees
-		this.offsetAlpha = -60.0;		
+		this.offsetAlpha = -50.0;		
 		this.offsetGamma = -70.0;
 		
 		// just the upper part of the video should be detected

@@ -60,11 +60,11 @@ function SimpleMotionDetector( object ) {
 		this.amplificationGamma = 0.4;	
 		
 		// in degrees
-		this.offsetAlpha = 0.0;		
-		this.offsetGamma = 0.0;
+		this.offsetAlpha = -60.0;		
+		this.offsetGamma = -70.0;
 		
 		// just the upper part of the video should be detected
-		this.detectionBorder = 0.85;
+		this.detectionBorder = 0.95;
 		
 		// threshold of detected pixels
 		this.pixelThreshold = 128;
@@ -181,26 +181,6 @@ function SimpleMotionDetector( object ) {
 			ctx.fillRect( simpleMotionDetector.averageX.getValue( ) - cubeWidth*0.5, simpleMotionDetector.averageY.getValue( ), cubeWidth*1.5 , cubeHeight*0.5 );
 			ctx.fillRect( simpleMotionDetector.averageX.getValue( ), simpleMotionDetector.averageY.getValue( ) - cubeHeight*0.5, cubeWidth*0.5 , cubeHeight*1.5 );		
 		}
-
-		SimpleMotionDetector.prototype.updateCameraPosition = function() {		
-    		var distanceFromMiddleX = this.averageX.getValue( ) * PIXELS_HORIZONTAL / WIDTH - PIXELS_HORIZONTAL / 2;
-			var alpha = - this.amplificationAlpha * Math.asin( distanceFromMiddleX / PIXELS_HORIZONTAL )+ Math.PI / 180 *this.offsetAlpha ;	
-	
-			var distanceFromMiddleY = ( PIXELS_VERTICAL / 2 - this.averageY.getValue( ) / HEIGHT * PIXELS_VERTICAL );
-			var gamma = - this.amplificationGamma * Math.asin( distanceFromMiddleY / PIXELS_VERTICAL ) + Math.PI / 180 *this.offsetGamma ;			
-			
-			var x = g_camera.position.x;
-			var z = g_camera.position.z;
-			var y = g_camera.position.y;
-			var radius = Math.sqrt( x*x + y*y + z*z );
-				
-			g_camera.position.x = radius * Math.sin( alpha )* Math.cos( gamma );
-			g_camera.position.z = radius * Math.cos( alpha )* Math.cos( gamma );
-			g_camera.position.y = radius * Math.sin( gamma );
-		
-			g_camera.lookAt( g_scene.position ); 
-		}
-		
 		
 		SimpleMotionDetector.prototype.analyseVideo = function() {			
 			requestAnimFrame( SimpleMotionDetector.prototype.analyseVideo );			
@@ -213,7 +193,6 @@ function SimpleMotionDetector( object ) {
 			canvas.update( );
   			APP.ctx.drawImage( videoCanvas, 0, PIXELS_VERTICAL );  		
 			simpleMotionDetector.analyisMotionPicture( );
-			simpleMotionDetector.updateCameraPosition( );
 		}
 	
 		SimpleMotionDetector.prototype.run = function() {

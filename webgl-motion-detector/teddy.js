@@ -58,14 +58,15 @@ Teddy = function() {
 	});
 
 	// Create all geometries
-	var bodyGeom = new THREE.CylinderGeometry(70, 90, 180, 12);
+	var bodyGeom = new THREE.CylinderGeometry(60, 90, 160, 12);
 	modifier.modify(bodyGeom);
 
 	var legGeom = new THREE.CylinderGeometry(20, 40, 80, 12);
 	modifier.modify(legGeom);
 
-	var armGeom = new THREE.CylinderGeometry(40, 20, 90, 12);
-	modifier.modify(armGeom);
+	var armGeom = new THREE.CylinderGeometry(20, 30, 90, 12);
+	armGeom.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 25, 0 ) );
+    modifier.modify(armGeom);
 
 	var faceGeom = new THREE.CylinderGeometry(70, 70, 70, 20);
 	modifier.modify(faceGeom);
@@ -89,7 +90,7 @@ Teddy = function() {
 	// body
 	this.body = new THREE.Mesh(bodyGeom, this.brownMaterial);
 	this.body.position.z = 50;
-	this.body.position.y = 100;
+	this.body.position.y = 110;
 
 	// left leg
 	var legDistance = 50;
@@ -105,21 +106,18 @@ Teddy = function() {
 	this.rightLeg.position.y = 0;
 
 	// left arm
-	var armDistance = 100;
-	var armPosY = 140;
+	var armDistance = 80;
+	var armPosY = 150;
 	this.leftArm = new THREE.Mesh(armGeom, this.brownMaterial);
 	this.leftArm.position.x = -armDistance;
 	this.leftArm.position.z = 70;
 	this.leftArm.position.y = armPosY;
-	this.leftArm.rotation.z = -Math.PI / 3;
-	this.leftArm.rotation.x = -Math.PI / 3;
 
 	// right arm
 	this.rightArm = new THREE.Mesh(armGeom, this.brownMaterial);
 	this.rightArm.position.x = armDistance;
 	this.rightArm.position.z = 70;
 	this.rightArm.position.y = armPosY;
-	this.rightArm.rotation.z = Math.PI / 3;
 
 	// face
 	this.face = new THREE.Mesh(faceGeom, this.brownMaterial);
@@ -252,7 +250,10 @@ Teddy.prototype.move = function(xTarget, yTarget, xTargetMaxAbs, yTargetMaxAbs) 
 	this.tHeadPosX = calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, 170, -170);
 	this.tHeadPosY = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, 20, 100) + 170;
 	this.tHeadPosZ = -50;
-
+	
+	this.tArmRotationRight = - calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, Math.PI / 2, Math.PI);
+	this.tArmRotationLeft  =  calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, Math.PI / 2, Math.PI);
+	
 	this.tEyeScale = 2;
 	this.tIrisYScale = 2;
 	this.tIrisZScale = 1;
@@ -272,6 +273,9 @@ Teddy.prototype.updateNextStep = function(step) {
 	this.headGroup.position.x += (this.tHeadPosX - this.headGroup.position.x) / step;
 	this.headGroup.position.y += (this.tHeadPosY - this.headGroup.position.y) / step;
 	this.headGroup.position.z += (this.tHeadPosZ - this.headGroup.position.z) / step;
+	
+	this.leftArm.rotation.z += (this.tArmRotationLeft - this.leftArm.rotation.z) / step;
+	this.rightArm.rotation.z += (this.tArmRotationRight - this.rightArm.rotation.z) / step;
 
 	this.bodyGroup.rotation.z += (this.tBodyRotZ - this.bodyGroup.rotation.z) / step;
 }

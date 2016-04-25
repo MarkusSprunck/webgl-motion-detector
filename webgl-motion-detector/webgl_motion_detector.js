@@ -30,10 +30,10 @@
 /**
  * Global constants
  */
-var BORDER_LEFT = 10;
-var BORDER_TOP = 10;
-var BORDER_RIGHT = 10;
-var BORDER_BOTTOM = 60;
+var BORDER_LEFT = 8;
+var BORDER_TOP = 8;
+var BORDER_RIGHT = 8;
+var BORDER_BOTTOM = 16;
 
 /**
  * Global variables for rendering
@@ -87,9 +87,6 @@ function init() {
 
 	// Add motion detector
 	g_motionDetector = new SimpleMotionDetector(g_camera);
-	g_motionDetector.domElement.style.position = 'absolute';
-	g_motionDetector.domElement.style.right = '10px';
-	g_motionDetector.domElement.style.bottom = '10px';
 	g_motionDetector.init();
 	container.appendChild(g_motionDetector.domElement);
 
@@ -108,10 +105,12 @@ function init() {
 	g_gui.add(g_motionDetector, 'pixelThreshold', 50, 250, 10).name('pixel threshold');
 	g_gui.add(g_motionDetector.averageX, 'maxLength', 200, 2000, 100).name('averager X');
 	g_gui.add(g_motionDetector.averageY, 'maxLength', 200, 2000, 100).name('averager Y');
+
 	g_gui.domElement.style.position = 'absolute';
-	g_gui.domElement.style.left = '10px';
-	g_gui.domElement.style.top = '10px';
+	g_gui.domElement.style.right = '' + (BORDER_RIGHT) + 'px';
+	g_gui.domElement.style.top = '' + (BORDER_RIGHT) + 'px';
 	g_gui.close();
+
 	container.appendChild(g_gui.domElement);
 
 	var resizeCallback = function() {
@@ -122,9 +121,6 @@ function init() {
 		g_renderer.domElement.style.width = g_panelWidthWebGL + 'px';
 		g_renderer.domElement.style.height = g_panelHeightWebGL + 'px';
 		g_camera.updateProjectionMatrix();
-		g_gui.domElement.style.position = 'absolute';
-		g_gui.domElement.style.left = '' + (BORDER_LEFT) + 'px';
-		g_gui.domElement.style.top = '' + (BORDER_TOP) + 'px';
 	};
 	window.addEventListener('resize', resizeCallback, false);
 	resizeCallback();

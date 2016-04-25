@@ -23,17 +23,83 @@ a {
 	font: 14px 'Lucida Grande', sans-serif;
 	text-align: right;
 }
+
+#forkongithub a {
+	background: #8181F7;
+	color: #fff;
+	text-decoration: none;
+	font-family: arial, sans-serif;
+	text-align: center;
+	font-weight: bold;
+	padding: 5px 40px;
+	font-size: 1rem;
+	line-height: 2rem;
+	position: absolute;
+	transition: 0.5s;
+	transform: scale(0.7, 0.7);
+	-webkit-transform: scale(0.7, 0.7);
+	-ms-transform: scale(0.7, 0.7);
+	-moz-transform: scale(0.7, 0.7);
+	-o-transform: scale(0.7, 0.7);
+}
+
+#forkongithub a:hover {
+	background: #2E2EFE;
+	color: #fff;
+}
+
+#forkongithub a::before, #forkongithub a::after {
+	content: "";
+	width: 100%;
+	display: block;
+	position: absolute;
+	top: 1px;
+	left: 0;
+	height: 1px;
+	background: #fff;
+}
+
+#forkongithub a::after {
+	bottom: 1px;
+	top: auto;
+}
+
+@media screen and (min-width: 800px) {
+	#forkongithub {
+		position: fixed;
+		display: block;
+		top: 0;
+		left: 0;
+		width: 200px;
+		overflow: hidden;
+		height: 200px;
+		z-index: 9999;
+	}
+	#forkongithub a {
+		width: 200px;
+		position: absolute;
+		top: 35px;
+		left: -85px;
+		transform: rotate(-45deg) scale(0.7, 0.7);
+		-webkit-transform: rotate(-45deg) scale(0.7, 0.7);
+		-ms-transform: rotate(-45deg) scale(0.7, 0.7);
+		-moz-transform: rotate(-45deg) scale(0.7, 0.7);
+		-o-transform: rotate(-45deg) scale(0.7, 0.7);
+		box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+	}
+	*, *:before, *:after {
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+}
 </style>
 <title>WebGL Motion Detector</title>
 </head>
-"webgl_motion_detector.js"
-<body class="main">
 
-    <div align="right" class='text'>
-		WebGL Motion Detector, <a
-			href="https://plus.google.com/u/0/117292523089281814301?rel=author">by
-			Markus Sprunck</a>
-	</div>
+<body class="main">
 
 	<div id="drawingArea"></div>
 
@@ -46,10 +112,10 @@ a {
 	<script type="text/javascript" src="glfx-neu.js"></script>
 	<script type="text/javascript" src="three.js"></script>
 	<script type="text/javascript" src="subdivisionmodifier.js"></script>
-	
-    <div align="right" class='text'>
-		find sources on <a href="https://github.com/MarkusSprunck/webgl-motion-detector.git">GitHub</a>
-	</div>
+
+	<span id="forkongithub"><a
+		href="https://github.com/MarkusSprunck/webgl-motion-detector.git" target="_defalut">Fork
+			me on GitHub</a></span>
 
 	<script type="text/javascript" src="webgl_motion_detector.js"></script>
 

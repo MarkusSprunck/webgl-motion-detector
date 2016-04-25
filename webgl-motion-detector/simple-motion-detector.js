@@ -61,7 +61,7 @@ function SimpleMotionDetector( object ) {
 		
 		// in degrees
 		this.offsetAlpha = -50.0;		
-		this.offsetGamma = -50.0;
+		this.offsetGamma = -26.0;
 		
 		// just the upper part of the video should be detected
 		this.detectionBorder = 0.95;
@@ -88,8 +88,8 @@ function SimpleMotionDetector( object ) {
 		canvas.width = WIDTH;
 		canvas.height = HEIGHT;
 		canvas.style.position = 'absolute';
-		canvas.style.left = '10px';
-		canvas.style.bottom = '10px';
+		canvas.style.right = '8px';
+		canvas.style.bottom = '16px';
 		canvas.style.opacity = 1.0;
 		canvas.hidden = !this.showCanvas;
 		canvas.id="video_canvas";

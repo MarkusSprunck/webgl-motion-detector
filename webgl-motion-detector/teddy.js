@@ -64,19 +64,24 @@ Teddy = function() {
 	var legGeom = new THREE.CylinderGeometry(20, 40, 80, 12);
 	modifier.modify(legGeom);
 
-	var armGeom = new THREE.CylinderGeometry(30, 25, 90, 12);
+	var armRadius= 25;
+	var armLegth = 100;
+	var armGeom = new THREE.CylinderGeometry(30, armRadius, armLegth, 12);
 	armGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 25, 0));
 	modifier.modify(armGeom);
 
 	var faceRadius = 70;
-	var faceGeom = new THREE.CylinderGeometry(faceRadius, faceRadius, 70, 20);
+	var faceGeom = new THREE.CylinderGeometry(faceRadius, faceRadius, 70, 12);
 	modifier.modify(faceGeom);
 
-	var earGeom = new THREE.CylinderGeometry(30, 30, 20, 20);
+	var earGeom = new THREE.CylinderGeometry(30, 30, 20, 12);
 	modifier.modify(earGeom);
 
-	var earInnerGeom = new THREE.CylinderGeometry(20, 20, 20, 20);
+	var earInnerGeom = new THREE.CylinderGeometry(20, 20, 20, 12);
 	modifier.modify(earInnerGeom);
+	
+	var pawGeometry = new THREE.CylinderGeometry(7, 7, 3, 12);
+	modifier.modify(pawGeometry);
 
 	var eyeGeom = new THREE.CylinderGeometry(15, 15, 6, 20);
 	modifier.modify(eyeGeom);
@@ -111,15 +116,51 @@ Teddy = function() {
 	var armDistance = 80;
 	var armPosY = 150;
 	this.leftArm = new THREE.Mesh(armGeom, this.brownMaterial);
-	this.leftArm.position.x = -armDistance;
-	this.leftArm.position.z = bodyPosZ + 30;
-	this.leftArm.position.y = armPosY;
+	this.leftPawMiddle = new THREE.Mesh(pawGeometry, this.blackMaterial);
+	this.leftPawMiddle.position.z = armRadius;
+	this.leftPawMiddle.position.y = armLegth-55;
+	this.leftPawMiddle.rotation.x = -Math.PI / 2;
+	this.leftPaw1 = new THREE.Mesh(pawGeometry, this.blackMaterial);
+	this.leftPaw1.position.z = armRadius;
+	this.leftPaw1.position.y = armLegth-40;
+	this.leftPaw1.rotation.x = -Math.PI / 2;
+	this.leftPaw1.scale.set(0.7, 0.7, 0.7);
+	this.leftPaw2 = new THREE.Mesh(pawGeometry, this.blackMaterial);
+	this.leftPaw2.position.z = armRadius;
+	this.leftPaw2.position.y = armLegth-42;
+	this.leftPaw2.rotation.x = -Math.PI / 2;
+	this.leftPaw2.position.x = 9;
+	this.leftPaw2.scale.set(0.7, 0.7, 0.7);
+	this.leftPaw3 = new THREE.Mesh(pawGeometry, this.blackMaterial);
+	this.leftPaw3.position.z = armRadius;
+	this.leftPaw3.position.y = armLegth-42;
+	this.leftPaw3.rotation.x = -Math.PI / 2;
+	this.leftPaw3.position.x = -9;
+	this.leftPaw3.scale.set(0.7, 0.7, 0.7);
 
 	// right arm
 	this.rightArm = new THREE.Mesh(armGeom, this.brownMaterial);
-	this.rightArm.position.x = armDistance;
-	this.rightArm.position.z = bodyPosZ + 30;
-	this.rightArm.position.y = armPosY;
+	this.rightPawMiddle = new THREE.Mesh(pawGeometry, this.blackMaterial);
+	this.rightPawMiddle.position.z = armRadius;
+	this.rightPawMiddle.position.y = armLegth-55;
+	this.rightPawMiddle.rotation.x = -Math.PI / 2;
+	this.rightPaw1 = new THREE.Mesh(pawGeometry, this.blackMaterial);
+	this.rightPaw1.position.z = armRadius;
+	this.rightPaw1.position.y = armLegth-40;
+	this.rightPaw1.rotation.x = -Math.PI / 2;
+	this.rightPaw1.scale.set(0.7, 0.7, 0.7);
+	this.rightPaw2 = new THREE.Mesh(pawGeometry, this.blackMaterial);
+	this.rightPaw2.position.z = armRadius;
+	this.rightPaw2.position.y = armLegth-42;
+	this.rightPaw2.rotation.x = -Math.PI / 2;
+	this.rightPaw2.position.x = 9;
+	this.rightPaw2.scale.set(0.7, 0.7, 0.7);
+	this.rightPaw3 = new THREE.Mesh(pawGeometry, this.blackMaterial);
+	this.rightPaw3.position.z = armRadius;
+	this.rightPaw3.position.y = armLegth-42;
+	this.rightPaw3.rotation.x = -Math.PI / 2;
+	this.rightPaw3.position.x = -9;
+	this.rightPaw3.scale.set(0.7, 0.7, 0.7);
 
 	// face
 	var facePosZ = 40;
@@ -225,12 +266,35 @@ Teddy = function() {
 	this.headGroup.add(this.mouthLeft);
 	this.headGroup.add(this.mouthRight);
 	this.headGroup.applyMatrix(new THREE.Matrix4().makeTranslation(0, 210, 0));
+	
+	// Create left arm Group
+	this.leftArmGroup = new THREE.Group();
+	this.leftArmGroup.add(this.leftArm);
+	this.leftArmGroup.add(this.leftPawMiddle);
+	this.leftArmGroup.add(this.leftPaw1);
+	this.leftArmGroup.add(this.leftPaw2);
+	this.leftArmGroup.add(this.leftPaw3);
+	this.leftArmGroup.position.x = -armDistance;
+	this.leftArmGroup.position.z = bodyPosZ + 30;
+	this.leftArmGroup.position.y = armPosY;
+	
+	// Create left arm Group
+	this.rightArmGroup = new THREE.Group();
+	this.rightArmGroup.add(this.rightArm);
+	this.rightArmGroup.add(this.rightPawMiddle);
+	this.rightArmGroup.add(this.rightPaw1);
+	this.rightArmGroup.add(this.rightPaw2);
+	this.rightArmGroup.add(this.rightPaw3);
+	this.rightArmGroup.position.x = armDistance;
+	this.rightArmGroup.position.z = bodyPosZ + 30;
+	this.rightArmGroup.position.y = armPosY;
+
 
 	// Create body group
 	this.bodyGroup = new THREE.Group();
 	this.bodyGroup.add(this.body);
-	this.bodyGroup.add(this.leftArm);
-	this.bodyGroup.add(this.rightArm);
+	this.bodyGroup.add(this.leftArmGroup);
+	this.bodyGroup.add(this.rightArmGroup);
 	this.bodyGroup.add(this.leftLeg);
 	this.bodyGroup.add(this.rightLeg);
 
@@ -278,8 +342,8 @@ Teddy.prototype.updateNextStep = function(step) {
 	this.headGroup.position.y += (this.tHeadPosY - this.headGroup.position.y) / step;
 	this.headGroup.position.z += (this.tHeadPosZ - this.headGroup.position.z) / step;
 
-	this.leftArm.rotation.z += (this.tArmRotationLeft - this.leftArm.rotation.z) / step;
-	this.rightArm.rotation.z += (this.tArmRotationRight - this.rightArm.rotation.z) / step;
+	this.leftArmGroup.rotation.z += (this.tArmRotationLeft - this.leftArmGroup.rotation.z) / step;
+	this.rightArmGroup.rotation.z += (this.tArmRotationRight - this.rightArmGroup.rotation.z) / step;
 
 	this.body.rotation.x += (this.tBodyRotX - this.body.rotation.x) / step;
 	this.bodyGroup.rotation.z += (this.tBodyRotZ - this.bodyGroup.rotation.z) / step;

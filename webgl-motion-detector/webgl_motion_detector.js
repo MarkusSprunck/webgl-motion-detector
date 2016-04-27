@@ -55,6 +55,8 @@ var g_motionDetector;
 var g_teddy;
 
 function init() {
+	
+	console.log('THREE.MotionDetector 2');
 
 	// Add container
 	g_scene = new THREE.Scene();
@@ -94,23 +96,19 @@ function init() {
 	g_gui = new dat.GUI({
 		autoPlace : false
 	});
-	g_gui.add(g_motionDetector, 'showCanvas').name('show canvas').onChange(function(value) {
-		document.getElementById('video_canvas').hidden = !value;
-	});
-	g_gui.add(g_motionDetector, 'offsetAlpha', -100.0, 100.0, 10).name('offset α');
-	g_gui.add(g_motionDetector, 'offsetGamma', -100.0, 100.0, 10).name('offset γ');
+	g_gui.add(g_motionDetector, 'offsetAlpha', -60.0, 0.0, 10).name('offset α');
+	g_gui.add(g_motionDetector, 'offsetGamma', -60.0, 0.0, 10).name('offset γ');
 	g_gui.add(g_motionDetector, 'amplificationAlpha', 0.1, 0.8, 0.1).name('amplification α');
 	g_gui.add(g_motionDetector, 'amplificationGamma', 0.1, 0.8, 0.1).name('amplification γ');
 	g_gui.add(g_motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('detection border');
 	g_gui.add(g_motionDetector, 'pixelThreshold', 50, 250, 10).name('pixel threshold');
-	g_gui.add(g_motionDetector.averageX, 'maxLength', 200, 2000, 100).name('averager X');
-	g_gui.add(g_motionDetector.averageY, 'maxLength', 200, 2000, 100).name('averager Y');
+	g_gui.add(g_motionDetector.averageX, 'maxLength', 50, 500, 50).name('averager X');
+	g_gui.add(g_motionDetector.averageY, 'maxLength', 50, 500, 50).name('averager Y');
 
 	g_gui.domElement.style.position = 'absolute';
 	g_gui.domElement.style.right = '' + (BORDER_RIGHT) + 'px';
 	g_gui.domElement.style.top = '' + (BORDER_RIGHT) + 'px';
 	g_gui.close();
-
 	container.appendChild(g_gui.domElement);
 
 	var resizeCallback = function() {
@@ -132,13 +130,13 @@ function init() {
 
 function createLights() {
 
-	var hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x101010, 0.8)
+	var hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x101010, 0.9)
 	g_scene.add(hemisphereLight);
 
 	var ambientLight = new THREE.AmbientLight(0x2f2f2f)
 	g_scene.add(ambientLight);
 
-	var sunLight = new THREE.DirectionalLight(0x606060, .3);
+	var sunLight = new THREE.DirectionalLight(0x606060, 0.30);
 	sunLight.position.set(300, 600, 500);
 	sunLight.castShadow = true;
 	sunLight.shadow = new THREE.LightShadow(new THREE.PerspectiveCamera());
@@ -166,6 +164,8 @@ function createTeddy() {
 }
 
 function animate() {
+	
+	document.getElementById('video_canvas').hidden = g_gui.closed;
 
 	// Move the bear
 	detectorPosition.x = g_motionDetector.offsetAlpha + g_motionDetector.amplificationAlpha * g_motionDetector.averageX.getValue();

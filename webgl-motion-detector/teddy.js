@@ -33,67 +33,61 @@ Teddy = function() {
 
 	// Create all materials
 	this.brownMaterial = new THREE.MeshLambertMaterial({
-		color : 0x8B4513,
-		shading : THREE.FlatShading
+		color : 0x8B4513
 	});
 
 	this.brownLightMaterialerial = new THREE.MeshLambertMaterial({
-		color : 0xD2691E,
-		shading : THREE.FlatShading
+		color : 0xD2691E
 	});
 
 	this.blackMaterial = new THREE.MeshLambertMaterial({
-		color : 0x302925,
-		shading : THREE.FlatShading
+		color : 0x302925
 	});
 
 	this.yellowMaterial = new THREE.MeshLambertMaterial({
-		color : 0xfdd276,
-		shading : THREE.FlatShading
+		color : 0xfdd276
 	});
 
 	this.whiteMaterial = new THREE.MeshLambertMaterial({
-		color : 0xffffff,
-		shading : THREE.FlatShading
+		color : 0xffffff
 	});
 
 	// Create all geometries
-	var bodyGeom = new THREE.CylinderGeometry(60, 90, 160, 12);
+	var cylinderDevisions=10;
+	var bodyGeom = new THREE.CylinderGeometry(60, 90, 160, cylinderDevisions);
 	modifier.modify(bodyGeom);
 
 	var legLegth = 80;
-	var legGeom = new THREE.CylinderGeometry(20, 40, legLegth, 12);
+	var legGeom = new THREE.CylinderGeometry(20, 40, legLegth, cylinderDevisions);
 	modifier.modify(legGeom);
 	
-	var clawGeometry = new THREE.CylinderGeometry(0, 7, 12, 12);
-//	modifier.modify(clawGeometry);	
+	var clawGeometry = new THREE.CylinderGeometry(0, 7, 12, cylinderDevisions);
 
 	var armRadius= 25;
 	var armLegth = 100;
-	var armGeom = new THREE.CylinderGeometry(30, armRadius, armLegth, 12);
+	var armGeom = new THREE.CylinderGeometry(30, armRadius, armLegth, cylinderDevisions);
 	armGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 25, 0));
 	modifier.modify(armGeom);
 
 	var faceRadius = 70;
-	var faceGeom = new THREE.CylinderGeometry(faceRadius, faceRadius, 70, 12);
+	var faceGeom = new THREE.CylinderGeometry(faceRadius, faceRadius, 70, cylinderDevisions);
 	modifier.modify(faceGeom);
 
-	var earGeom = new THREE.CylinderGeometry(30, 30, 20, 12);
+	var earGeom = new THREE.CylinderGeometry(30, 30, 20, cylinderDevisions);
 	modifier.modify(earGeom);
 
-	var earInnerGeom = new THREE.CylinderGeometry(20, 20, 20, 12);
+	var earInnerGeom = new THREE.CylinderGeometry(20, 20, 20, cylinderDevisions);
 	modifier.modify(earInnerGeom);
 	
-	var pawGeometry = new THREE.CylinderGeometry(7, 7, 3, 12);
-	modifier.modify(pawGeometry);
+	var pawGeometry = new THREE.CylinderGeometry(7, 7, 3, cylinderDevisions);
+//	modifier.modify(pawGeometry);
 	
-
-	var eyeGeom = new THREE.CylinderGeometry(15, 15, 6, 20);
+	var eyeGeom = new THREE.CylinderGeometry(15, 15, 6, cylinderDevisions);
 	modifier.modify(eyeGeom);
 
-	var irisGeom = new THREE.CylinderGeometry(5, 5, 5, 20);
-	var noseGeom = new THREE.CylinderGeometry(10, 10, 6, 20);
-	var mouthTopGeom = new THREE.CylinderGeometry(4, 4, 15, 20);
+	var irisGeom = new THREE.CylinderGeometry(5, 5, 3, cylinderDevisions*2);
+	var noseGeom = new THREE.CylinderGeometry(10, 10, 6, cylinderDevisions);
+	var mouthTopGeom = new THREE.CylinderGeometry(4, 4, 15, cylinderDevisions);
 	var mouthGeometry = new THREE.TorusGeometry(12, 4, 20, 20, Math.PI / 4 * 3);
 
 	// Create all meshes
@@ -329,7 +323,6 @@ Teddy = function() {
 	this.rightArmGroup.position.z = bodyPosZ + 30;
 	this.rightArmGroup.position.y = armPosY;
 
-
 	// Create body group
 	this.bodyGroup = new THREE.Group();
 	this.bodyGroup.add(this.body);
@@ -354,11 +347,13 @@ Teddy = function() {
 			object.receiveShadow = true;
 		}
 	});
+	this.rightIris.castShadow = false;
+	this.rightIris.receiveShadow = false;
+	this.leftIris.castShadow = false;
+	this.leftIris.receiveShadow = false;
 }
 
 Teddy.prototype.move = function(xTarget, yTarget, xTargetMaxAbs, yTargetMaxAbs) {
-
-	// console.log("xTarget="+ xTarget + " yTarget="+yTarget);
 
 	this.tHeagRotY = calculateRotation(xTarget, -yTargetMaxAbs, yTargetMaxAbs, -Math.PI / 3, Math.PI / 3);
 	this.tHeadRotX = calculateRotation(yTarget, -xTargetMaxAbs, xTargetMaxAbs, -Math.PI / 4, Math.PI / 4);
@@ -367,7 +362,7 @@ Teddy.prototype.move = function(xTarget, yTarget, xTargetMaxAbs, yTargetMaxAbs) 
 	this.tHeadPosY = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, 220, 240);
 	this.tHeadPosZ = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, -30, 30);
 
-	var irisScaleFactor = Math.max(1.0, Math.min(1.5, Math.pow(xTarget * xTarget + yTarget * yTarget, 0.5) / 50.0 + 0.5));
+	var irisScaleFactor = 2.5 - Math.max(1.0, Math.min(1.5, Math.pow(xTarget * xTarget + yTarget * yTarget, 0.5) / 40.0 + 0.5));
 	this.leftIris.scale.set(irisScaleFactor, 1, irisScaleFactor);
 	this.rightIris.scale.set(irisScaleFactor, 1, irisScaleFactor);
 

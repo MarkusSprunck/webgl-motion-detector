@@ -101,7 +101,7 @@ function init() {
 	g_gui.add(g_motionDetector, 'amplificationAlpha', 0.1, 0.8, 0.1).name('amplification α');
 	g_gui.add(g_motionDetector, 'amplificationGamma', 0.1, 0.8, 0.1).name('amplification γ');
 	g_gui.add(g_motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('detection border');
-	g_gui.add(g_motionDetector, 'pixelThreshold', 50, 250, 10).name('pixel threshold');
+	g_gui.add(g_motionDetector, 'pixelThreshold', 0, 256, 10).name('pixel threshold');
 	g_gui.add(g_motionDetector.averageX, 'maxLength', 50, 500, 50).name('averager X');
 	g_gui.add(g_motionDetector.averageY, 'maxLength', 50, 500, 50).name('averager Y');
 

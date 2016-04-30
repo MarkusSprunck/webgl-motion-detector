@@ -293,8 +293,6 @@ var fx = (function() {
 			// stop rendering to this texture
 			gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 		};
-
-		var canvas = null;
 	
 		Texture.prototype.swapWith = function(other) {
 			var temp;

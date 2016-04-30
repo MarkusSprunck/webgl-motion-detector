@@ -78,7 +78,9 @@ function SimpleMotionDetector( object ) {
 		this.averageY.setValue( HEIGHT / 2 );		
 		
 		// show canvas
-		this.showCanvas = false;
+		this.showCanvas = true;
+		
+		this.stop = false;
 			
 		videoCanvas = document.createElement( 'canvas' );
 		videoCanvas.width = PIXELS_HORIZONTAL;
@@ -100,6 +102,7 @@ function SimpleMotionDetector( object ) {
 		var texture = null;
 		var ctx = canvas.getContext( '2d' );
 		var video;
+		this.stream = {}
 		document.body.appendChild( canvas );	
 		
 		SimpleMotionDetector.prototype.init = function() {	
@@ -108,11 +111,13 @@ function SimpleMotionDetector( object ) {
 		
 			navigator.getUserMedia = navigator.mozGetUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia 
 								  || navigator.msGetUserMedia;
-								  
+					
+			var _that = this;
 			video = document.createElement( 'video' );
 			if ( navigator.getUserMedia ) { 
 	 			navigator.getUserMedia( {audio: false, video: true}, 
 					function( stream ) {
+	 					_that.stream = stream;
 	 				    video.src = window.URL.createObjectURL( stream );
 						APP.videoWidth = PIXELS_HORIZONTAL;
 						APP.videoHeight = PIXELS_VERTICAL;  
@@ -130,7 +135,7 @@ function SimpleMotionDetector( object ) {
 			} else {
 	 			alert( 'Your browser does not seem to support UserMedia' )
 			}
-	
+			
 			requestAnimFrame = ( function( ) {
 	 			return 	window.requestAnimationFrame || window.webkitRequestAnimationFrame ||
 	   				window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
@@ -140,7 +145,8 @@ function SimpleMotionDetector( object ) {
 			} )( );		
 			
 		}
-	
+		
+		
 		SimpleMotionDetector.prototype.analyisMotionPicture = function() {			
  			videoContext.drawImage( canvas, 0, 0 );
  			var data = videoContext.getImageData( 0, 0, PIXELS_HORIZONTAL, PIXELS_VERTICAL ).data;
@@ -182,8 +188,12 @@ function SimpleMotionDetector( object ) {
 			ctx.fillRect( simpleMotionDetector.averageX.getValue( ), simpleMotionDetector.averageY.getValue( ) - cubeHeight*0.5, cubeWidth*0.5 , cubeHeight*1.5 );		
 		}
 		
+		SimpleMotionDetector.prototype.terminate = function() {	
+			var track = this.stream.getTracks()[0];  
+			track.stop();
+		}
+			
 		SimpleMotionDetector.prototype.analyseVideo = function() {			
-			requestAnimFrame( SimpleMotionDetector.prototype.analyseVideo );			
 			videoContext.drawImage( video,0,0, PIXELS_HORIZONTAL, PIXELS_VERTICAL );
 			APP.ctx.drawImage( videoCanvas, 0, 0 );
 			texture.loadContentsOf( APP.frontCanvas );
@@ -193,6 +203,12 @@ function SimpleMotionDetector( object ) {
 			canvas.update( );
   			APP.ctx.drawImage( videoCanvas, 0, PIXELS_VERTICAL );  		
 			simpleMotionDetector.analyisMotionPicture( );
+			
+			var _that = this;
+			if (!this.stop)  {
+				setTimeout(function(){ _that.analyseVideo(); }, 20);
+			}
+			
 		}
 	
 		SimpleMotionDetector.prototype.run = function() {

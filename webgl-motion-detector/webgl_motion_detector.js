@@ -177,10 +177,4 @@ function animate() {
 	g_renderer.render(g_scene, g_camera);
 }
 
-// Now create scene and render
-if (Detector.webgl) {
-	init();
-	animate();
-} else {
-	document.body.appendChild(Detector.getWebGLErrorMessage());
-}
+

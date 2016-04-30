@@ -89,6 +89,7 @@ a {
 	}
 }
 </style>
+<link rel="stylesheet" href="qunit-1.23.1.css">
 <title>WebGL Motion Detector</title>
 </head>
 
@@ -96,31 +97,62 @@ a {
 
 	<div id="drawingArea"></div>
 
-	<script type="text/javascript" src="teddy.js"></script>
+	<script src="qunit-1.23.1.js"></script>
+	<script src="blanket.js"></script>
+
+	<script type="text/javascript" src="teddy.js" data-cover></script>
 	<script type="text/javascript" src="detector.js"></script>
-	<script type="text/javascript" src="moving-averager.js"></script>
+	<script type="text/javascript" src="moving-averager.js" data-cover></script>
 	<script type="text/javascript" src="request-animation-frame.js"></script>
 	<script type="text/javascript" src="dat.gui.min.js"></script>
-	<script type="text/javascript" src="simple-motion-detector.js"></script>
-	<script type="text/javascript" src="glfx-lean.js"></script>
+	<script type="text/javascript" src="simple-motion-detector.js"
+		data-cover></script>
+	<script type="text/javascript" src="glfx-lean.js" data-cover></script>
 	<script type="text/javascript" src="three.js"></script>
 	<script type="text/javascript" src="subdivisionmodifier.js"></script>
 
+<!-- 
 	<span id="forkongithub"><a
 		href="https://github.com/MarkusSprunck/webgl-motion-detector.git"
 		target="_defalut">Fork me on GitHub</a></span>
-
+-->
 	<script type="text/javascript" src="webgl_motion_detector.js"></script>
-	
+
+	<div id="qunit"></div>
+
 	<script>
-		// Create scene and render
-		if (Detector.webgl) {
-			init();
-			animate();
-		} else {
-			document.body.appendChild(Detector.getWebGLErrorMessage());
-		}
+	
+		// Measure code coverage with blanket.js
+		QUnit.test( "Code Coverage Analysis", function( assert ) {
+
+			// Create scene and render
+			if (Detector.webgl) {
+				init();
+				animate();
+			} else {
+				document.body.appendChild(Detector.getWebGLErrorMessage());
+			}
+			
+			// Wait 5 seconds for measurement
+			stop(); 
+			setTimeout(function() {
+				// hide grafic to display result		
+				document.getElementById('drawingArea').style.display = 'none';
+				
+				// Stop video
+				g_motionDetector.terminate();
+			
+			  	//Make assertion 
+       			assert.ok(true, "measurement ready");
+       		
+       			// After the assertion called, restart the test
+		       	start();
+		    }, 5000);
+		    
+		   
+		});
 	</script>
+
 
 </body>
 </html>

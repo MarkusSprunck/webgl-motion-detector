@@ -129,7 +129,6 @@ function SimpleMotionDetector( object ) {
 						simpleMotionDetector.run( );
 					}, 
 					function( e ) {
-						alert( 'getUserMedia did not succeed.\n\ncode=' + e.code );
 					}
 				);
 			} else {

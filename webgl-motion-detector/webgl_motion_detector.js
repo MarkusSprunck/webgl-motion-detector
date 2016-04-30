@@ -63,8 +63,8 @@ function init() {
 	var container = document.getElementById('drawingArea');
 
 	// Add camera
-	HEIGHT = window.innerHeight;
-	WIDTH = window.innerWidth;
+	var HEIGHT = window.innerHeight;
+	var WIDTH = window.innerWidth;
 	g_camera = new THREE.PerspectiveCamera(50, WIDTH / HEIGHT, 1, 2000);
 	g_scene.add(g_camera);
 	g_camera.position.set(0, 150, 500);
@@ -150,7 +150,8 @@ function createFloor() {
 		color : 0xafafaf,
 		specular : 0xffffff
 	});
-	floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(1500, 1500), groundMaterial);
+	
+	var floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(1500, 1500), groundMaterial);
 	floor.rotation.x = -Math.PI / 2;
 	floor.position.y = -40;
 	floor.receiveShadow = true;

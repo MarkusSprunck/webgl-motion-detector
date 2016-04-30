@@ -82,9 +82,9 @@ function SimpleMotionDetector( object ) {
 		
 		this.stop = false;
 			
-		videoCanvas = document.createElement( 'canvas' );
-		videoCanvas.width = PIXELS_HORIZONTAL;
-		videoCanvas.height = PIXELS_VERTICAL;
+		this.videoCanvas = document.createElement( 'canvas' );
+		this.videoCanvas.width = PIXELS_HORIZONTAL;
+		this.videoCanvas.height = PIXELS_VERTICAL;
 
 		var canvas = document.createElement( 'canvas' );
 		canvas.width = WIDTH;
@@ -96,7 +96,7 @@ function SimpleMotionDetector( object ) {
 		canvas.hidden = !this.showCanvas;
 		canvas.id="video_canvas";
 		
-		var videoContext = videoCanvas.getContext( '2d' );
+		var videoContext = this.videoCanvas.getContext( '2d' );
 		var APP = {};
 		var simpleMotionDetector;
 		var texture = null;
@@ -189,13 +189,13 @@ function SimpleMotionDetector( object ) {
 			
 		SimpleMotionDetector.prototype.analyseVideo = function() {			
 			videoContext.drawImage( video,0,0, PIXELS_HORIZONTAL, PIXELS_VERTICAL );
-			APP.ctx.drawImage( videoCanvas, 0, 0 );
+			APP.ctx.drawImage( this.videoCanvas, 0, 0 );
 			texture.loadContentsOf( APP.frontCanvas );
 			canvas.draw( texture );
 			canvas.mirror( );
 			canvas.move( );
 			canvas.update( );
-  			APP.ctx.drawImage( videoCanvas, 0, PIXELS_VERTICAL );  		
+  			APP.ctx.drawImage( this.videoCanvas, 0, PIXELS_VERTICAL );  		
 			simpleMotionDetector.analyisMotionPicture( );
 			
 			var _that = this;

@@ -165,7 +165,7 @@ function createFloor() {
 	
 	var floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(1500, 1500), groundMaterial);
 	floor.rotation.x = -Math.PI / 2;
-	floor.position.y = -40;
+	floor.position.y = -45;
 	floor.receiveShadow = true;
 	g_scene.add(floor);
 }

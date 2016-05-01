@@ -68,24 +68,23 @@ Teddy = function() {
 	var armGeom = new THREE.CylinderGeometry(30, armRadius, armLegth, cylinderDevisions);
 	armGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 25, 0));
 	modifier.modify(armGeom);
+	var pawGeometry = new THREE.CylinderGeometry(7, 7, 3, cylinderDevisions);
 
 	var faceRadius = 70;
 	var faceGeom = new THREE.CylinderGeometry(faceRadius, faceRadius, 70, cylinderDevisions);
 	modifier.modify(faceGeom);
 
-	var earGeom = new THREE.CylinderGeometry(30, 30, 20, cylinderDevisions);
+	var earRadius = 25;
+	var earThickness = 20;
+	var earGeom = new THREE.CylinderGeometry(earRadius, earRadius, earThickness, cylinderDevisions);
 	modifier.modify(earGeom);
-
-	var earInnerGeom = new THREE.CylinderGeometry(20, 20, 20, cylinderDevisions);
+	var earInnerGeom = new THREE.CylinderGeometry(earRadius*2/3, earRadius*2/3, earThickness, cylinderDevisions);
 	modifier.modify(earInnerGeom);
-	
-	var pawGeometry = new THREE.CylinderGeometry(7, 7, 3, cylinderDevisions);
-//	modifier.modify(pawGeometry);
 	
 	var eyeGeom = new THREE.CylinderGeometry(15, 15, 6, cylinderDevisions);
 	modifier.modify(eyeGeom);
-
 	var irisGeom = new THREE.CylinderGeometry(5, 5, 3, cylinderDevisions*2);
+
 	var noseGeom = new THREE.CylinderGeometry(10, 10, 6, cylinderDevisions);
 	var mouthTopGeom = new THREE.CylinderGeometry(4, 4, 15, cylinderDevisions);
 	var mouthGeometry = new THREE.TorusGeometry(12, 4, 20, 20, Math.PI / 4 * 3);
@@ -259,38 +258,44 @@ Teddy = function() {
 	this.mouthRight.rotation.z = Math.PI;
 
 	// ears
-	var earPostionZ = facePosZ;
+	var earXPos = 55;
+	var earYPos = 55;
+	var earZPos = facePosZ;
+	this.rightEarGroup = new THREE.Group();
 	this.rightEar = new THREE.Mesh(earGeom, this.brownMaterial);
-	this.rightEar.position.x = -50;
-	this.rightEar.position.y = 50;
-	this.rightEar.position.z = earPostionZ;
+	this.rightEar.position.x = -earXPos-7;
+	this.rightEar.position.y = earYPos;
+	this.rightEar.position.z = earZPos;
 	this.rightEar.rotation.x = -Math.PI / 2;
-
+	this.rightEarGroup.add(this.rightEar);
+	
 	this.rightEarInner = new THREE.Mesh(earInnerGeom, this.brownLightMaterialerial);
-	this.rightEarInner.position.x = -50;
-	this.rightEarInner.position.y = 50;
-	this.rightEarInner.position.z = earPostionZ + 2;
+	this.rightEarInner.position.x = -earXPos-7;
+	this.rightEarInner.position.y = earYPos;
+	this.rightEarInner.position.z = earZPos + 2;
 	this.rightEarInner.rotation.x = -Math.PI / 2;
+	this.rightEarGroup.add(this.rightEarInner);
 
+	this.leftEarGroup = new THREE.Group();
 	this.leftEar = new THREE.Mesh(earGeom, this.brownMaterial);
-	this.leftEar.position.x = 50;
-	this.leftEar.position.y = 50;
-	this.leftEar.position.z = earPostionZ;
+	this.leftEar.position.x = earXPos;
+	this.leftEar.position.y = earYPos;
+	this.leftEar.position.z = earZPos;
 	this.leftEar.rotation.x = -Math.PI / 2;
+	this.leftEarGroup.add(this.leftEar);
 
 	this.leftEarInner = new THREE.Mesh(earInnerGeom, this.brownLightMaterialerial);
-	this.leftEarInner.position.x = 50;
-	this.leftEarInner.position.y = 50;
-	this.leftEarInner.position.z = earPostionZ + 2;
+	this.leftEarInner.position.x = earXPos;
+	this.leftEarInner.position.y = earYPos;
+	this.leftEarInner.position.z = earZPos + 2;
 	this.leftEarInner.rotation.x = -Math.PI / 2;
+	this.leftEarGroup.add(this.leftEarInner);
 
 	// Create head group
 	this.headGroup = new THREE.Group();
 	this.headGroup.add(this.face);
-	this.headGroup.add(this.rightEar);
-	this.headGroup.add(this.leftEar);
-	this.headGroup.add(this.rightEarInner);
-	this.headGroup.add(this.leftEarInner);
+	this.headGroup.add(this.rightEarGroup);
+	this.headGroup.add(this.leftEarGroup);
 	this.headGroup.add(this.nose);
 	this.headGroup.add(this.leftEye);
 	this.headGroup.add(this.rightEye);
@@ -362,9 +367,15 @@ Teddy.prototype.move = function(xTarget, yTarget, xTargetMaxAbs, yTargetMaxAbs) 
 	this.tHeadPosY = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, 220, 240);
 	this.tHeadPosZ = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, -30, 30);
 
-	var irisScaleFactor = 2.5 - Math.max(1.0, Math.min(1.5, Math.pow(xTarget * xTarget + yTarget * yTarget, 0.5) / 40.0 + 0.5));
-	this.leftIris.scale.set(irisScaleFactor, 1, irisScaleFactor);
-	this.rightIris.scale.set(irisScaleFactor, 1, irisScaleFactor);
+	var changeIrisSize = false;
+	if (changeIrisSize) {
+		var irisScaleFactor = 2.5 - Math.max(1.0, Math.min(1.5, Math.pow(xTarget * xTarget + yTarget * yTarget, 0.5) / 40.0 + 0.5));
+		this.leftIris.scale.set(irisScaleFactor, 1, irisScaleFactor);
+		this.rightIris.scale.set(irisScaleFactor, 1, irisScaleFactor);
+	}
+		
+	this.rightEarGroupRotX = calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, -Math.PI/10, Math.PI/10);
+	this.rightEarGroupRotY = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, -Math.PI/10, Math.PI/10);
 
 	this.tArmRotationRight = -calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, Math.PI / 4, Math.PI);
 	this.tArmRotationLeft = calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, Math.PI / 4, Math.PI);
@@ -383,6 +394,11 @@ Teddy.prototype.updateNextStep = function(step) {
 	this.headGroup.position.y += (this.tHeadPosY - this.headGroup.position.y) / step;
 	this.headGroup.position.z += (this.tHeadPosZ - this.headGroup.position.z) / step;
 
+	this.rightEarGroup.rotation.x +=   (this.rightEarGroupRotX - this.rightEarGroup.rotation.x) / step;
+	this.rightEarGroup.rotation.y +=   (this.rightEarGroupRotY - this.rightEarGroup.rotation.y) / step;
+	this.leftEarGroup.rotation.x +=   (this.rightEarGroupRotX - this.leftEarGroup.rotation.x) / step;
+	this.leftEarGroup.rotation.y +=   (this.rightEarGroupRotY - this.leftEarGroup.rotation.y) / step;
+	
 	this.leftArmGroup.rotation.z += (this.tArmRotationLeft - this.leftArmGroup.rotation.z) / step;
 	this.rightArmGroup.rotation.z += (this.tArmRotationRight - this.rightArmGroup.rotation.z) / step;
 

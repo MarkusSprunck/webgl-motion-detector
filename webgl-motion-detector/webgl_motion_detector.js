@@ -34,6 +34,7 @@ var BORDER_LEFT = 8;
 var BORDER_TOP = 8;
 var BORDER_RIGHT = 8;
 var BORDER_BOTTOM = 16;
+var USE_ORBIT_CONTROLS = false;
 
 /**
  * Global variables for rendering
@@ -42,9 +43,7 @@ var g_panelWidthWebGL;
 var g_panelHeightWebGL;
 var g_scene;
 var g_cube_wireframe;
-var g_camera;
-var g_renderer;
-var g_control;
+var g_controls;
 var g_gui;
 var detectorPosition = {
 	x : 0,
@@ -67,8 +66,6 @@ function init() {
 	var WIDTH = window.innerWidth;
 	g_camera = new THREE.PerspectiveCamera(50, WIDTH / HEIGHT, 1, 2000);
 	g_scene.add(g_camera);
-	g_camera.position.set(0, 150, 500);
-	g_camera.lookAt(0, 150, 0);
 
 	// Add renderer
 	g_renderer = new THREE.WebGLRenderer({
@@ -91,6 +88,17 @@ function init() {
 	g_motionDetector = new SimpleMotionDetector(g_camera);
 	g_motionDetector.init();
 	container.appendChild(g_motionDetector.domElement);
+	
+	if (USE_ORBIT_CONTROLS) {
+		g_controls = new THREE.OrbitControls( g_camera, g_renderer.domElement );
+		g_controls.enableDamping = true;
+		g_controls.dampingFactor = 0.25;
+		g_controls.enableZoom = true;
+		g_camera.position.set(g_camera.position.x, g_camera.position.y + 100, g_camera.position.z + 600);
+	} else {
+		g_camera.position.set(0, 150, 500);
+		g_camera.lookAt(0, 150, 0);
+	}
 
 	// Add dialog to change parameters
 	g_gui = new dat.GUI({
@@ -168,6 +176,10 @@ function animate() {
 	
 	document.getElementById('video_canvas').hidden = g_gui.closed;
 
+	if (USE_ORBIT_CONTROLS) {
+		g_controls.update();
+	}
+	
 	// Move the bear
 	detectorPosition.x = g_motionDetector.offsetAlpha + g_motionDetector.amplificationAlpha * g_motionDetector.averageX.getValue();
 	detectorPosition.y = g_motionDetector.offsetGamma + g_motionDetector.amplificationGamma * g_motionDetector.averageY.getValue();

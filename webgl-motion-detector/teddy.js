@@ -68,7 +68,7 @@ Teddy = function() {
 	var armGeom = new THREE.CylinderGeometry(30, armRadius, armLegth, cylinderDevisions);
 	armGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 25, 0));
 	modifier.modify(armGeom);
-	var pawGeometry = new THREE.CylinderGeometry(7, 7, 3, cylinderDevisions);
+	var pawGeometry = new THREE.CylinderGeometry(7, 7, 10, cylinderDevisions);
 
 	var faceRadius = 70;
 	var faceGeom = new THREE.CylinderGeometry(faceRadius, faceRadius, 70, cylinderDevisions);
@@ -92,31 +92,32 @@ Teddy = function() {
 	// Create all meshes
 
 	// body
-	var bodyPosZ = -20;
+	var bodyPosZ = 0;
 	this.body = new THREE.Mesh(bodyGeom, this.brownMaterial);
 	this.body.position.z = bodyPosZ;
 	this.body.position.y = 110;
+	this.body.scale.set(1, 1, 0.6);
 
 	// left leg
 	var legDistance = 50;
 	this.leftLeg = new THREE.Mesh(legGeom, this.brownMaterial);
 	this.leftLeg.position.x = -legDistance;
-	this.leftLeg.position.z = bodyPosZ + 30;
+	this.leftLeg.position.z = bodyPosZ ;
 	this.leftLeg.position.y = 0;
 	this.leftLegClaw1 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.leftLegClaw1.position.x = -legDistance+15;
-	this.leftLegClaw1.position.z = bodyPosZ + 59;
+	this.leftLegClaw1.position.z = bodyPosZ + 29;
 	this.leftLegClaw1.position.y = 6-legLegth/2;
 	this.leftLegClaw1.rotation.x = Math.PI * 6 / 10;
 	this.leftLegClaw1.rotation.z = -Math.PI / 20;
 	this.leftLegClaw2 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.leftLegClaw2.position.x = -legDistance;
-	this.leftLegClaw2.position.z = bodyPosZ + 63;
+	this.leftLegClaw2.position.z = bodyPosZ + 33;
 	this.leftLegClaw2.position.y = 6-legLegth/2;
 	this.leftLegClaw2.rotation.x = Math.PI * 6 / 10;
 	this.leftLegClaw3 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.leftLegClaw3.position.x = -legDistance-15;
-	this.leftLegClaw3.position.z = bodyPosZ + 59;
+	this.leftLegClaw3.position.z = bodyPosZ + 29;
 	this.leftLegClaw3.position.y = 6-legLegth/2;
 	this.leftLegClaw3.rotation.x = Math.PI * 6 / 10;
 	this.leftLegClaw3.rotation.z = Math.PI / 20;
@@ -124,22 +125,22 @@ Teddy = function() {
 	// right leg
 	this.rightLeg = new THREE.Mesh(legGeom, this.brownMaterial);
 	this.rightLeg.position.x = legDistance;
-	this.rightLeg.position.z = bodyPosZ + 30;
+	this.rightLeg.position.z = bodyPosZ;
 	this.rightLeg.position.y = 0;
 	this.rightLegClaw1 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.rightLegClaw1.position.x = legDistance-15;
-	this.rightLegClaw1.position.z = bodyPosZ + 59;
+	this.rightLegClaw1.position.z = bodyPosZ + 29;
 	this.rightLegClaw1.position.y = 6-legLegth/2;
 	this.rightLegClaw1.rotation.x = Math.PI * 6 / 10;
 	this.rightLegClaw1.rotation.z = Math.PI / 20;
 	this.rightLegClaw2 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.rightLegClaw2.position.x = legDistance;
-	this.rightLegClaw2.position.z = bodyPosZ + 63;
+	this.rightLegClaw2.position.z = bodyPosZ + 33;
 	this.rightLegClaw2.position.y = 6-legLegth/2;
 	this.rightLegClaw2.rotation.x = Math.PI * 6 / 10;
 	this.rightLegClaw3 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.rightLegClaw3.position.x = legDistance+15;
-	this.rightLegClaw3.position.z = bodyPosZ + 59;
+	this.rightLegClaw3.position.z = bodyPosZ + 29;
 	this.rightLegClaw3.position.y = 6-legLegth/2;
 	this.rightLegClaw3.rotation.x = Math.PI * 6 / 10;
 	this.rightLegClaw3.rotation.z = -Math.PI / 20;
@@ -149,23 +150,24 @@ Teddy = function() {
 	var armDistance = 80;
 	var armPosY = 150;
 	this.leftArm = new THREE.Mesh(armGeom, this.brownMaterial);
+	this.leftArm.position.z = bodyPosZ;
 	this.leftPawMiddle = new THREE.Mesh(pawGeometry, this.blackMaterial);
-	this.leftPawMiddle.position.z = armRadius;
+	this.leftPawMiddle.position.z = bodyPosZ+armRadius-3;
 	this.leftPawMiddle.position.y = armLegth-55;
 	this.leftPawMiddle.rotation.x = -Math.PI / 2;
 	this.leftPaw1 = new THREE.Mesh(pawGeometry, this.blackMaterial);
-	this.leftPaw1.position.z = armRadius;
+	this.leftPaw1.position.z = bodyPosZ+armRadius-4;
 	this.leftPaw1.position.y = armLegth-40;
 	this.leftPaw1.rotation.x = -Math.PI / 2;
 	this.leftPaw1.scale.set(0.7, 0.7, 0.7);
 	this.leftPaw2 = new THREE.Mesh(pawGeometry, this.blackMaterial);
-	this.leftPaw2.position.z = armRadius;
+	this.leftPaw2.position.z = bodyPosZ+armRadius-4;
 	this.leftPaw2.position.y = armLegth-42;
 	this.leftPaw2.rotation.x = -Math.PI / 2;
 	this.leftPaw2.position.x = 9;
 	this.leftPaw2.scale.set(0.7, 0.7, 0.7);
 	this.leftPaw3 = new THREE.Mesh(pawGeometry, this.blackMaterial);
-	this.leftPaw3.position.z = armRadius;
+	this.leftPaw3.position.z = bodyPosZ+armRadius-4;
 	this.leftPaw3.position.y = armLegth-42;
 	this.leftPaw3.rotation.x = -Math.PI / 2;
 	this.leftPaw3.position.x = -9;
@@ -173,23 +175,24 @@ Teddy = function() {
 
 	// right arm
 	this.rightArm = new THREE.Mesh(armGeom, this.brownMaterial);
+	this.rightArm.position.z = bodyPosZ;
 	this.rightPawMiddle = new THREE.Mesh(pawGeometry, this.blackMaterial);
-	this.rightPawMiddle.position.z = armRadius;
+	this.rightPawMiddle.position.z = bodyPosZ+armRadius-3;
 	this.rightPawMiddle.position.y = armLegth-55;
 	this.rightPawMiddle.rotation.x = -Math.PI / 2;
 	this.rightPaw1 = new THREE.Mesh(pawGeometry, this.blackMaterial);
-	this.rightPaw1.position.z = armRadius;
+	this.rightPaw1.position.z = bodyPosZ+armRadius-4;
 	this.rightPaw1.position.y = armLegth-40;
 	this.rightPaw1.rotation.x = -Math.PI / 2;
 	this.rightPaw1.scale.set(0.7, 0.7, 0.7);
 	this.rightPaw2 = new THREE.Mesh(pawGeometry, this.blackMaterial);
-	this.rightPaw2.position.z = armRadius;
+	this.rightPaw2.position.z = bodyPosZ+armRadius-4;
 	this.rightPaw2.position.y = armLegth-42;
 	this.rightPaw2.rotation.x = -Math.PI / 2;
 	this.rightPaw2.position.x = 9;
 	this.rightPaw2.scale.set(0.7, 0.7, 0.7);
 	this.rightPaw3 = new THREE.Mesh(pawGeometry, this.blackMaterial);
-	this.rightPaw3.position.z = armRadius;
+	this.rightPaw3.position.z = bodyPosZ+armRadius-4;
 	this.rightPaw3.position.y = armLegth-42;
 	this.rightPaw3.rotation.x = -Math.PI / 2;
 	this.rightPaw3.position.x = -9;
@@ -364,8 +367,8 @@ Teddy.prototype.move = function(xTarget, yTarget, xTargetMaxAbs, yTargetMaxAbs) 
 	this.tHeadRotX = calculateRotation(yTarget, -xTargetMaxAbs, xTargetMaxAbs, -Math.PI / 4, Math.PI / 4);
 
 	this.tHeadPosX = calculateRotation(xTarget, -xTargetMaxAbs, xTargetMaxAbs, 10, -10);
-	this.tHeadPosY = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, 220, 240);
-	this.tHeadPosZ = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, -30, 30);
+	this.tHeadPosY = calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, 300, 240);
+	this.tHeadPosZ = -60 + calculateRotation(yTarget, -yTargetMaxAbs, yTargetMaxAbs, -60, 60);
 
 	var changeIrisSize = false;
 	if (changeIrisSize) {

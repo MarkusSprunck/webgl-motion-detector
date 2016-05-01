@@ -70,11 +70,11 @@ function SimpleMotionDetector( object ) {
 		this.pixelThreshold = 128;
 		
 		// average of all x positions of detected motion 
-		this.averageX = new MovingAverager( 250 );
+		this.averageX = new MovingAverager( 150 );
 		this.averageX.setValue( WIDTH / 2 );
 		
 		// average of all y positions of detected motion 
-		this.averageY = new MovingAverager( 250 );
+		this.averageY = new MovingAverager( 150 );
 		this.averageY.setValue( HEIGHT / 2 );		
 		
 		// show canvas

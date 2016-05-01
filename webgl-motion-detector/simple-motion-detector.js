@@ -56,12 +56,12 @@ function SimpleMotionDetector( object ) {
 		this.object = object;	
 		
 		// amplification factor for rotation (one is almost natural)
-		this.amplificationAlpha = 0.4;
-		this.amplificationGamma = 0.4;	
+		this.amplificationAlpha = 0.3;
+		this.amplificationGamma = 0.3;	
 		
 		// in degrees
-		this.offsetAlpha = -50.0;		
-		this.offsetGamma = -20.0;
+		this.offsetAlpha = -30.0;		
+		this.offsetGamma = -25.0;
 		
 		// just the upper part of the video should be detected
 		this.detectionBorder = 0.85;
@@ -70,11 +70,11 @@ function SimpleMotionDetector( object ) {
 		this.pixelThreshold = 128;
 		
 		// average of all x positions of detected motion 
-		this.averageX = new MovingAverager( 150 );
+		this.averageX = new MovingAverager( 250 );
 		this.averageX.setValue( WIDTH / 2 );
 		
 		// average of all y positions of detected motion 
-		this.averageY = new MovingAverager( 150 );
+		this.averageY = new MovingAverager( 250 );
 		this.averageY.setValue( HEIGHT / 2 );		
 		
 		// show canvas

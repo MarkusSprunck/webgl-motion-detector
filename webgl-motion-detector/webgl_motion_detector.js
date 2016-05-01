@@ -34,6 +34,10 @@ var BORDER_LEFT = 8;
 var BORDER_TOP = 8;
 var BORDER_RIGHT = 8;
 var BORDER_BOTTOM = 16;
+
+/**
+ * Just for development to rotate scene
+ */
 var USE_ORBIT_CONTROLS = false;
 
 /**

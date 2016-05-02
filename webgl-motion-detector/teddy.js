@@ -87,12 +87,13 @@ Teddy = function() {
 	var earInnerGeom = new THREE.CylinderGeometry(earRadius*2/3, earRadius*2/3, earThickness, cylinderDevisions);
 	modifier.modify(earInnerGeom);
 	
-	var eyeGeom = new THREE.CylinderGeometry(15, 15, 6, cylinderDevisions);
+	var eyeGeom = new THREE.CylinderGeometry(15, 15, 12, cylinderDevisions*2);
 	modifier.modify(eyeGeom);
 	
 	var irisGeom = new THREE.CylinderGeometry(5, 5, 3, cylinderDevisions*2);
 
 	var noseGeom = new THREE.CylinderGeometry(10, 10, 6, cylinderDevisions);
+	modifier.modify(noseGeom);
 
 	var mouthTopGeom = new THREE.CylinderGeometry(4, 4, 15, cylinderDevisions);
 //	var modifier2 = new THREE.BendModifier();
@@ -102,6 +103,8 @@ Teddy = function() {
 //	modifier2.set( direction, axis, angle ).modify( mouthTopGeom );
 	
 	var mouthGeometry = new THREE.TorusGeometry(12, 4, 20, 20, Math.PI / 6 * 7);	
+	
+	var mouthEndGeometry = new THREE.SphereGeometry(4);
 
 	///////////////////////////////////
 	// Create all meshes
@@ -223,13 +226,13 @@ Teddy = function() {
 	this.eyePosY = 25;
 	this.leftEye = new THREE.Mesh(eyeGeom, this.whiteMaterial);
 	this.leftEye.position.x = this.eyeDistance;
-	this.leftEye.position.z =  + 35;
+	this.leftEye.position.z =  + 31;
 	this.leftEye.position.y = this.eyePosY;
 	this.leftEye.rotation.x = -Math.PI / 2;
 
 	this.rightEye = new THREE.Mesh(eyeGeom, this.whiteMaterial);
 	this.rightEye.position.x = -this.eyeDistance;
-	this.rightEye.position.z =  + 35;
+	this.rightEye.position.z =  + 31;
 	this.rightEye.position.y = this.eyePosY;
 	this.rightEye.rotation.x = -Math.PI / 2;
 
@@ -250,7 +253,7 @@ Teddy = function() {
 	var noseTopPosition = 5;
 	this.nose = new THREE.Mesh(noseGeom, this.blackMaterial);
 	this.nose.position.x = 0;
-	this.nose.position.z =  + 35;
+	this.nose.position.z =  + 37;
 	this.nose.position.y = -noseTopPosition;
 	this.nose.rotation.x = -Math.PI / 2;
 
@@ -267,6 +270,11 @@ Teddy = function() {
 	this.mouthLeft.position.x = -12;
 	this.mouthLeft.rotation.z = Math.PI;
 	this.mouthLeft.rotation.y = -Math.PI;
+	
+	this.mouthEndLeft = new THREE.Mesh(mouthEndGeometry, this.blackMaterial);
+	this.mouthEndLeft.position.z =  + 35.2;
+	this.mouthEndLeft.position.y = -noseTopPosition - 14;
+	this.mouthEndLeft.position.x = -22.4;
 
 	// mouth right side
 	this.mouthRight = new THREE.Mesh(mouthGeometry, this.blackMaterial);
@@ -274,6 +282,11 @@ Teddy = function() {
 	this.mouthRight.position.y = -noseTopPosition - 20;
 	this.mouthRight.position.x = 12;
 	this.mouthRight.rotation.z = Math.PI;
+	
+	this.mouthEndRight = new THREE.Mesh(mouthEndGeometry, this.blackMaterial);
+	this.mouthEndRight.position.z =  + 35.2;
+	this.mouthEndRight.position.y = -noseTopPosition - 14;
+	this.mouthEndRight.position.x = 22.4;
 
 	// ears
 	var earXPos = 55;
@@ -321,7 +334,10 @@ Teddy = function() {
 	this.headGroup.add(this.rightIris);
 	this.headGroup.add(this.mouthTop);
 	this.headGroup.add(this.mouthLeft);
+	this.headGroup.add(this.mouthEndLeft);
 	this.headGroup.add(this.mouthRight);
+	this.headGroup.add(this.mouthEndRight);
+	
     this.headGroup.applyMatrix(new THREE.Matrix4().makeTranslation(0, 250, this.bodyPosZ ));
 	
 	// Create left arm Group

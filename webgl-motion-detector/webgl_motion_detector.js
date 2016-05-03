@@ -63,6 +63,7 @@ function init() {
 
 	// Add container
 	g_scene = new THREE.Scene();
+	g_scene.fog=new THREE.FogExp2( 0xffffff, 0.0004 );
 	var container = document.getElementById('drawingArea');
 
 	// Add camera
@@ -70,7 +71,7 @@ function init() {
 	var WIDTH = window.innerWidth;
 	g_camera = new THREE.PerspectiveCamera(50, WIDTH / HEIGHT, 1, 2000);
 	g_scene.add(g_camera);
-
+	
 	// Add renderer
 	g_renderer = new THREE.WebGLRenderer({
 		alpha : true,
@@ -109,14 +110,14 @@ function init() {
 		autoPlace : false, width: 312
 	});
 	var folder = g_gui.addFolder('Motion Detector Settings');
-	folder.add(g_motionDetector, 'offsetAlpha', -60.0, 0.0, 10).name('offset α');
-	folder.add(g_motionDetector, 'offsetGamma', -60.0, 0.0, 10).name('offset γ');
-	folder.add(g_motionDetector, 'amplificationAlpha', 0.1, 0.8, 0.1).name('amplification α');
-	folder.add(g_motionDetector, 'amplificationGamma', 0.1, 0.8, 0.1).name('amplification γ');
-	folder.add(g_motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('detection border');
-	folder.add(g_motionDetector, 'pixelThreshold', 0, 256, 10).name('pixel threshold');
-	folder.add(g_motionDetector.averageX, 'maxLength', 50, 500, 50).name('averager X');
-	folder.add(g_motionDetector.averageY, 'maxLength', 50, 500, 50).name('averager Y');
+	folder.add(g_motionDetector, 'offsetAlpha', -60.0, 0.0, 10).name('Offset α');
+	folder.add(g_motionDetector, 'offsetGamma', -60.0, 0.0, 10).name('Offset γ');
+	folder.add(g_motionDetector, 'amplificationAlpha', 0.1, 0.8, 0.1).name('Amplification α');
+	folder.add(g_motionDetector, 'amplificationGamma', 0.1, 0.8, 0.1).name('Amplification γ');
+	folder.add(g_motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('Detection border');
+	folder.add(g_motionDetector, 'pixelThreshold', 0, 256, 10).name('Pixel threshold');
+	folder.add(g_motionDetector.averageX, 'maxLength', 50, 500, 50).name('Averager X');
+	folder.add(g_motionDetector.averageY, 'maxLength', 50, 500, 50).name('Averager Y');
 	folder.open();
 	
 	g_gui.domElement.style.position = 'absolute';
@@ -161,11 +162,11 @@ function createFloor() {
 
 	var groundMaterial = new THREE.MeshPhongMaterial({
 		shininess : 80,
-		color : 0xafafaf,
-		specular : 0xffffff
+		color : 0xadafad,
+		specular : 0xadafad
 	});
-	
-	var floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(3500, 1500), groundMaterial);
+		
+	var floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(6000, 3000), groundMaterial);
 	floor.rotation.x = -Math.PI / 2;
 	floor.position.y = -45;
 	floor.receiveShadow = true;

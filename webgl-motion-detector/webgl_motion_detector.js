@@ -69,7 +69,7 @@ function init() {
 	// Add camera
 	var HEIGHT = window.innerHeight;
 	var WIDTH = window.innerWidth;
-	g_camera = new THREE.PerspectiveCamera(50, WIDTH / HEIGHT, 100, 3000);
+	g_camera = new THREE.PerspectiveCamera(50, WIDTH / HEIGHT, 1, 3000);
 	g_scene.add(g_camera);
 	
 	// Add renderer

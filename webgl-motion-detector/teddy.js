@@ -43,7 +43,17 @@ Teddy = function() {
 	});
 
 	this.blackMaterial = new THREE.MeshPhongMaterial({
-		color : 0x302925
+		color : 0x302925,
+		shininess : 100,
+        emissive: 0x111111,
+        specular: 0x444444
+	});
+	
+	this.blackIrisMaterial = new THREE.MeshPhongMaterial({
+		color : 0x302944,
+		shininess : 100,
+        emissive: 0x111111,
+        specular: 0xffffff
 	});
 
 	this.yellowMaterial = new THREE.MeshPhongMaterial({
@@ -51,7 +61,10 @@ Teddy = function() {
 	});
 
 	this.whiteMaterial = new THREE.MeshPhongMaterial({
-		color : 0xffffff
+		color : 0xffffff,
+		shininess : 100,
+        emissive: 0x111111,
+        specular: 0xffffff
 	});
 
 	///////////////////////////////////
@@ -62,7 +75,7 @@ Teddy = function() {
 	modifier.modify(bodyGeom);
 
 	this.legLength = 100;
-	var legGeom = new THREE.CylinderGeometry(20, 40, this.legLength, cylinderDevisions);
+	var legGeom = new THREE.CylinderGeometry(20, 43, this.legLength, cylinderDevisions);
     modifier.modify(legGeom);
 	
 	var clawGeometry = new THREE.CylinderGeometry(0, 7, 12, cylinderDevisions);
@@ -73,7 +86,7 @@ Teddy = function() {
 	armGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 25, 0));
 	modifier.modify(armGeom);
 	
-	var pawGeometry = new THREE.CylinderGeometry(7, 7, 10, cylinderDevisions);
+	var pawGeometry = new THREE.CylinderGeometry(7, 7, 11, cylinderDevisions);
 
 	var faceRadius = 70;
 	var faceGeom = new THREE.CylinderGeometry(faceRadius, faceRadius, 70, cylinderDevisions);
@@ -91,19 +104,13 @@ Teddy = function() {
 	modifier.modify(eyeGeom);
 	
 	var irisGeom = new THREE.CylinderGeometry(5, 5, 3, cylinderDevisions*2);
+    modifier.modify(irisGeom);
 
 	var noseGeom = new THREE.CylinderGeometry(10, 10, 6, cylinderDevisions);
 	modifier.modify(noseGeom);
 
 	var mouthTopGeom = new THREE.CylinderGeometry(4, 4, 15, cylinderDevisions);
-//	var modifier2 = new THREE.BendModifier();
-//	var direction = new THREE.Vector3( 0, -1, 0 );
-//	var axis =  new THREE.Vector3( 1, 0, 0 );
-//	var angle = Math.PI / 5;
-//	modifier2.set( direction, axis, angle ).modify( mouthTopGeom );
-	
 	var mouthGeometry = new THREE.TorusGeometry(12, 4, 20, 20, Math.PI / 6 * 7);	
-	
 	var mouthEndGeometry = new THREE.SphereGeometry(4);
 
 	///////////////////////////////////
@@ -126,18 +133,18 @@ Teddy = function() {
 	this.leftLegClaw1 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.leftLegClaw1.position.x = -legDistance+15;
 	this.leftLegClaw1.position.z = this.bodyPosZ  + 29;
-	this.leftLegClaw1.position.y = 6-this.legLength/2;
+	this.leftLegClaw1.position.y = 7-this.legLength/2;
 	this.leftLegClaw1.rotation.x = Math.PI * 6 / 10;
 	this.leftLegClaw1.rotation.z = -Math.PI / 20;
 	this.leftLegClaw2 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.leftLegClaw2.position.x = -legDistance;
 	this.leftLegClaw2.position.z = this.bodyPosZ  + 33;
-	this.leftLegClaw2.position.y = 6-this.legLength/2;
+	this.leftLegClaw2.position.y = 7-this.legLength/2;
 	this.leftLegClaw2.rotation.x = Math.PI * 6 / 10;
 	this.leftLegClaw3 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.leftLegClaw3.position.x = -legDistance-15;
 	this.leftLegClaw3.position.z = this.bodyPosZ  + 29;
-	this.leftLegClaw3.position.y = 6-this.legLength/2;
+	this.leftLegClaw3.position.y = 7-this.legLength/2;
 	this.leftLegClaw3.rotation.x = Math.PI * 6 / 10;
 	this.leftLegClaw3.rotation.z = Math.PI / 20;
 
@@ -149,18 +156,18 @@ Teddy = function() {
 	this.rightLegClaw1 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.rightLegClaw1.position.x = legDistance-15;
 	this.rightLegClaw1.position.z = this.bodyPosZ  + 29;
-	this.rightLegClaw1.position.y = 6-this.legLength/2;
+	this.rightLegClaw1.position.y = 7-this.legLength/2;
 	this.rightLegClaw1.rotation.x = Math.PI * 6 / 10;
 	this.rightLegClaw1.rotation.z = Math.PI / 20;
 	this.rightLegClaw2 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.rightLegClaw2.position.x = legDistance;
 	this.rightLegClaw2.position.z = this.bodyPosZ  + 33;
-	this.rightLegClaw2.position.y = 6-this.legLength/2;
+	this.rightLegClaw2.position.y = 7-this.legLength/2;
 	this.rightLegClaw2.rotation.x = Math.PI * 6 / 10;
 	this.rightLegClaw3 = new THREE.Mesh(clawGeometry, this.blackMaterial);
 	this.rightLegClaw3.position.x = legDistance+15;
 	this.rightLegClaw3.position.z = this.bodyPosZ  + 29;
-	this.rightLegClaw3.position.y = 6-this.legLength/2;
+	this.rightLegClaw3.position.y = 7-this.legLength/2;
 	this.rightLegClaw3.rotation.x = Math.PI * 6 / 10;
 	this.rightLegClaw3.rotation.z = -Math.PI / 20;
 
@@ -237,13 +244,13 @@ Teddy = function() {
 	this.rightEye.rotation.x = -Math.PI / 2;
 
 	// iris
-	this.leftIris = new THREE.Mesh(irisGeom, this.blackMaterial);
+	this.leftIris = new THREE.Mesh(irisGeom, this.blackIrisMaterial);
 	this.leftIris.position.x = this.eyeDistance;
 	this.leftIris.position.z =  + 35 + 2;
 	this.leftIris.position.y = this.eyePosY;
 	this.leftIris.rotation.x = -Math.PI / 2;
 
-	this.rightIris = new THREE.Mesh(irisGeom, this.blackMaterial);
+	this.rightIris = new THREE.Mesh(irisGeom, this.blackIrisMaterial);
 	this.rightIris.position.x = -this.eyeDistance;
 	this.rightIris.position.z =  + 35 + 2;
 	this.rightIris.position.y = this.eyePosY;

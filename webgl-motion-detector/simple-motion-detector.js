@@ -64,7 +64,7 @@ function SimpleMotionDetector( object ) {
 		this.offsetGamma = -15.0;
 		
 		// just the upper part of the video should be detected
-		this.detectionBorder = 0.85;
+		this.detectionBorder = 0.95;
 		
 		// threshold of detected pixels
 		this.pixelThreshold = 128;

@@ -45,23 +45,23 @@
 function SimpleMotionDetector( object ) {
 	
 		// number of pixels for analysis
-		var PIXELS_HORIZONTAL = 50; 
-		var PIXELS_VERTICAL   = 50; 
+		var PIXELS_HORIZONTAL = 16 * 4; 
+		var PIXELS_VERTICAL   = 10 * 4; 
 		
 		// size of info window
-		var WIDTH =  245; 
-		var HEIGHT = 200; 
+		var WIDTH =  16 * 19 ; 
+		var HEIGHT = 10 * 19 ; 
 	
 		// expected to be THREE.g_camera object
 		this.object = object;	
 		
 		// amplification factor for rotation (one is almost natural)
-		this.amplificationAlpha = 0.3;
-		this.amplificationGamma = 0.3;	
+		this.amplificationAlpha = 0.25;
+		this.amplificationGamma = 0.25;	
 		
 		// in degrees
-		this.offsetAlpha = -30.0;		
-		this.offsetGamma = -25.0;
+		this.offsetAlpha = -35.0;		
+		this.offsetGamma = -15.0;
 		
 		// just the upper part of the video should be detected
 		this.detectionBorder = 0.85;

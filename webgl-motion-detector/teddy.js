@@ -34,23 +34,23 @@ Teddy = function() {
 	///////////////////////////////////
 	// Create all materials
 
-	this.brownMaterial = new THREE.MeshLambertMaterial({
+	this.brownMaterial = new THREE.MeshPhongMaterial({
 		color : 0x8B4513
 	});
 
-	this.brownLightMaterialerial = new THREE.MeshLambertMaterial({
+	this.brownLightMaterialerial = new THREE.MeshPhongMaterial({
 		color : 0xD2691E
 	});
 
-	this.blackMaterial = new THREE.MeshLambertMaterial({
+	this.blackMaterial = new THREE.MeshPhongMaterial({
 		color : 0x302925
 	});
 
-	this.yellowMaterial = new THREE.MeshLambertMaterial({
+	this.yellowMaterial = new THREE.MeshPhongMaterial({
 		color : 0xfdd276
 	});
 
-	this.whiteMaterial = new THREE.MeshLambertMaterial({
+	this.whiteMaterial = new THREE.MeshPhongMaterial({
 		color : 0xffffff
 	});
 
@@ -63,7 +63,7 @@ Teddy = function() {
 
 	this.legLength = 100;
 	var legGeom = new THREE.CylinderGeometry(20, 40, this.legLength, cylinderDevisions);
-	modifier.modify(legGeom);
+    modifier.modify(legGeom);
 	
 	var clawGeometry = new THREE.CylinderGeometry(0, 7, 12, cylinderDevisions);
 

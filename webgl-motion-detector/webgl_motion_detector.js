@@ -165,7 +165,7 @@ function createFloor() {
 		specular : 0xffffff
 	});
 	
-	var floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(1500, 1500), groundMaterial);
+	var floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(3500, 1500), groundMaterial);
 	floor.rotation.x = -Math.PI / 2;
 	floor.position.y = -45;
 	floor.receiveShadow = true;

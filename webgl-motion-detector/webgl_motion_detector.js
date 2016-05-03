@@ -30,10 +30,10 @@
 /**
  * Global constants
  */
-var BORDER_LEFT = 8;
-var BORDER_TOP = 8;
-var BORDER_RIGHT = 8;
-var BORDER_BOTTOM = 16;
+var BORDER_LEFT = 0;
+var BORDER_TOP = 0;
+var BORDER_RIGHT = 0;
+var BORDER_BOTTOM = 0;
 
 /**
  * Just for development to rotate scene
@@ -106,7 +106,7 @@ function init() {
 
 	// Add dialog to change parameters
 	g_gui = new dat.GUI({
-		autoPlace : false, width: 300
+		autoPlace : false, width: 312
 	});
 	var folder = g_gui.addFolder('Motion Detector Settings');
 	folder.add(g_motionDetector, 'offsetAlpha', -60.0, 0.0, 10).name('offset α');

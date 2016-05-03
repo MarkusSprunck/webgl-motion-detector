@@ -90,9 +90,9 @@ function SimpleMotionDetector( object ) {
 		canvas.width = WIDTH;
 		canvas.height = HEIGHT;
 		canvas.style.position = 'absolute';
-		canvas.style.right = '8px';
-		canvas.style.bottom = '16px';
-		canvas.style.opacity = 1.0;
+		canvas.style.right = '10px';
+		canvas.style.bottom = '10px';
+		canvas.style.opacity = 0.6;
 		canvas.hidden = !this.showCanvas;
 		canvas.id="video_canvas";
 		

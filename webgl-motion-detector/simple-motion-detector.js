@@ -61,10 +61,10 @@ function SimpleMotionDetector( object ) {
 		
 		// in degrees
 		this.offsetAlpha = -35.0;		
-		this.offsetGamma = -15.0;
+		this.offsetGamma = -12.0;
 		
 		// just the upper part of the video should be detected
-		this.detectionBorder = 0.95;
+		this.detectionBorder = 0.85;
 		
 		// threshold of detected pixels
 		this.pixelThreshold = 128;
@@ -79,6 +79,8 @@ function SimpleMotionDetector( object ) {
 		
 		// show canvas
 		this.showCanvas = true;
+		
+		this.isVideoRunning = false;
 		
 		this.stop = false;
 			
@@ -132,7 +134,7 @@ function SimpleMotionDetector( object ) {
 					}
 				);
 			} else {
-	 			alert( 'Your browser does not seem to support UserMedia. Use desktop browser like Chrome or Firefox.' )
+				$("#error-message").text("Your browser does not seem to support UserMedia (video).");
 			}
 		}
 		
@@ -201,7 +203,7 @@ function SimpleMotionDetector( object ) {
 			if (!this.stop)  {
 				setTimeout(function(){ _that.analyseVideo(); }, 20);
 			}
-			
+			this.isVideoRunning = true;
 		}
 	
 		SimpleMotionDetector.prototype.run = function() {

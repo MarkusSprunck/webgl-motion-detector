@@ -38,7 +38,8 @@ var BORDER_BOTTOM = 0;
 /**
  * Just for development to rotate scene
  */
-var USE_ORBIT_CONTROLS = (document.location.search === "?orbitControls=true");;
+var USE_ORBIT_CONTROLS = (document.location.search === "?orbitControls=true");
+;
 
 /**
  * Global variables for rendering
@@ -58,12 +59,12 @@ var g_motionDetector;
 var g_teddy;
 
 function init() {
-	
+
 	console.log('THREE.MotionDetector 2');
 
 	// Add container
 	g_scene = new THREE.Scene();
-	g_scene.fog=new THREE.FogExp2( 0xffffff, 0.0004 );
+	g_scene.fog = new THREE.FogExp2(0xffffff, 0.0004);
 	var container = document.getElementById('drawingArea');
 
 	// Add camera
@@ -71,7 +72,7 @@ function init() {
 	var WIDTH = window.innerWidth;
 	g_camera = new THREE.PerspectiveCamera(50, WIDTH / HEIGHT, 1, 3000);
 	g_scene.add(g_camera);
-	
+
 	// Add renderer
 	g_renderer = new THREE.WebGLRenderer({
 		alpha : true,
@@ -93,9 +94,9 @@ function init() {
 	g_motionDetector = new SimpleMotionDetector(g_camera);
 	g_motionDetector.init();
 	container.appendChild(g_motionDetector.domElement);
-	
+
 	if (USE_ORBIT_CONTROLS) {
-		g_controls = new THREE.OrbitControls( g_camera, g_renderer.domElement );
+		g_controls = new THREE.OrbitControls(g_camera, g_renderer.domElement);
 		g_controls.enableDamping = true;
 		g_controls.dampingFactor = 0.25;
 		g_controls.enableZoom = true;
@@ -107,22 +108,23 @@ function init() {
 
 	// Add dialog to change parameters
 	g_gui = new dat.GUI({
-		autoPlace : false, width: 312
+		autoPlace : false,
+		width : 312
 	});
 	var folder = g_gui.addFolder('Motion Detector Settings');
-	folder.add(g_motionDetector, 'offsetAlpha', -60.0, 0.0, 10).name('Offset α');
-	folder.add(g_motionDetector, 'offsetGamma', -60.0, 0.0, 10).name('Offset γ');
-	folder.add(g_motionDetector, 'amplificationAlpha', 0.1, 0.8, 0.1).name('Amplification α');
-	folder.add(g_motionDetector, 'amplificationGamma', 0.1, 0.8, 0.1).name('Amplification γ');
+	folder.add(g_motionDetector, 'offsetAlpha', -60.0, 20.0, 10).name('Offset α');
+	folder.add(g_motionDetector, 'offsetGamma', -60.0, 20.0, 10).name('Offset γ');
+	folder.add(g_motionDetector, 'amplificationAlpha', 0.1, 0.4, 0.1).name('Amplification α');
+	folder.add(g_motionDetector, 'amplificationGamma', 0.1, 0.4, 0.1).name('Amplification γ');
 	folder.add(g_motionDetector, 'detectionBorder', 0.25, 1.0, 0.05).name('Detection border');
-	folder.add(g_motionDetector, 'pixelThreshold', 0, 256, 10).name('Pixel threshold');
+	folder.add(g_motionDetector, 'pixelThreshold', 0, 250, 10).name('Pixel threshold');
 	folder.add(g_motionDetector.averageX, 'maxLength', 50, 500, 50).name('Averager X');
 	folder.add(g_motionDetector.averageY, 'maxLength', 50, 500, 50).name('Averager Y');
 	folder.open();
-	
+
 	g_gui.domElement.style.position = 'absolute';
-	g_gui.domElement.style.right = '' + (BORDER_RIGHT) + 'px';
-	g_gui.domElement.style.top = '' + (BORDER_RIGHT) + 'px';
+	g_gui.domElement.style.right = '10px';
+	g_gui.domElement.style.top = '10px';
 	g_gui.close();
 	container.appendChild(g_gui.domElement);
 
@@ -165,7 +167,7 @@ function createFloor() {
 		color : 0xadafad,
 		specular : 0xadafad
 	});
-		
+
 	var floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(6000, 3000), groundMaterial);
 	floor.rotation.x = -Math.PI / 2;
 	floor.position.y = -45;
@@ -180,13 +182,13 @@ function createTeddy() {
 }
 
 function animate() {
-	
+
 	document.getElementById('video_canvas').hidden = g_gui.closed;
 
 	if (USE_ORBIT_CONTROLS) {
 		g_controls.update();
 	}
-	
+
 	// Move the bear
 	detectorPosition.x = g_motionDetector.offsetAlpha + g_motionDetector.amplificationAlpha * g_motionDetector.averageX.getValue();
 	detectorPosition.y = g_motionDetector.offsetGamma + g_motionDetector.amplificationGamma * g_motionDetector.averageY.getValue();
@@ -196,5 +198,3 @@ function animate() {
 	requestAnimationFrame(animate);
 	g_renderer.render(g_scene, g_camera);
 }
-
-

@@ -2,15 +2,104 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta name="viewport"
-	content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="viewport" content="content=" width=device-width,
+	initial-scale=1 " />
+
 <link rel="stylesheet" href="webgl_motion_detector.css">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
 <title>WebGL Motion Detector</title>
 </head>
 <body class="main">
 
+	<button type="button"
+		class="btn btn-primary btn-round-lg btn-md btn-circle-on-top"
+		data-toggle="modal" data-target="#myModal">
+		<span class="glyphicon glyphicon-info-sign"></span>
+	</button>
+
 	<div id="drawingArea"></div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" role="dialog">
+
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<h4 class="modal-title">Teddy Regards You!</h4>
+				</div>
+				<div class="modal-body">
+
+					<table class="info-box">
+						<tr>
+							<td colspan="2">
+								<h4>Grant camera permission for the page</h4>
+							</td>
+						</tr>
+						<tr>
+							<td><IMG SRC="camera.png"
+								style="float: left; width: 120px; border: 1px solid #ffffff" />
+							</td>
+							<td>This page uses the browsers video signal as input for a
+								simple motion detector to move the teddy bear. Please enable the
+								capture of video signal in your browser. Desktop browsers Chrome
+								and Firefox work well under Windows and OS X.
+								<p class="text-red" id="error-message"></p>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h4>Move your head in front of camera.</h4>
+							</td>
+						</tr>
+						<tr>
+							<td><IMG SRC="move-head.png"
+								style="float: left; width: 120px; border: 1px solid #ffffff" /></td>
+							<td>The motion detector calculates the average movement for
+								several frames and teddy bear looks in this direction. To fine
+								tune the detection parameter and control the video signal you
+								may 'Open Controls' on the right top of the page.</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h4>Fork on GitHub</h4>
+							</td>
+						</tr>
+						<tr>
+							<td><IMG SRC="github.png"
+								style="float: left; width: 120px; border: 1px solid #ffffff" /></td>
+							<td>This experiment has been developed <a
+								href="https://plus.google.com/u/0/117292523089281814301?rel=author">by
+									Markus Sprunck</a>. The complete source code is available. It is
+								implemented in Javascript based on three.ja and glfx.js
+								libraries. You may for me at <a
+								href="https://github.com/MarkusSprunck/webgl-motion-detector.git"
+								target="_defalut">GitHub</a> and visit my blog <a
+								href="http://www.sw-engineering-candies.com" target="_defalut">www.sw-engineering-candies.com</a></span></td>
+						</tr>
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	</div>
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="teddy.js"></script>
 	<script type="text/javascript" src="detector.js"></script>
 	<script type="text/javascript" src="moving-averager.js"></script>
@@ -22,21 +111,26 @@
 	<script type="text/javascript" src="subdivisionmodifier.js"></script>
 	<script type="text/javascript" src="bendModifier.js"></script>
 	<script type="text/javascript" src="orbitControls.js"></script>
-
-	<span id="forkongithub"><a
-		href="https://github.com/MarkusSprunck/webgl-motion-detector.git"
-		target="_defalut">Fork me on GitHub</a></span>
-
 	<script type="text/javascript" src="webgl_motion_detector.js"></script>
 
 	<script>
+	
+	
 		// Create scene and render
 		if (Detector.webgl) {
 			init();
 			animate();
 		} else {
-			document.body.appendChild(Detector.getWebGLErrorMessage());
+			$("#myModal").modal();
+			$("#error-message").text("Your browser does not seem to support WebGL.");
 		}
+			
+		setTimeout(function() {
+			if ( !g_motionDetector.isVideoRunning ) {
+				$("#myModal").modal();
+			}
+		}, 1000);
+	
 	</script>
 
 </body>

@@ -1,8 +1,9 @@
-Extremely Fast and Simple WebGL Motion Detector to Rotate 3D Graphic
-====================================================================
+Teddy Regards You!
+==================
 
-- read more http://goo.gl/znPKm details for this example code
-- running application http://webgl-examples.appspot.com/webgl-motion-detector/webgl_motion_detector.html (works with Chrome Browser)
-- source http://www.sw-engineering-candies.com
+An extremely fast and simple WebGL Motion Detector to move 3D graphic
+
+- running application https://webgl-examples.appspot.com/teddy-regards-you/index.html
+- read more source http://www.sw-engineering-candies.com
 
 

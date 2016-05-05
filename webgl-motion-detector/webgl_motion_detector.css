@@ -1,5 +1,5 @@
 .main {
-	background: #cfebfd;
+	background: #cbcc9e;
 	padding: 0px;
 	border: 0px;
 	margin: 0px
@@ -38,6 +38,10 @@ a {
 	color: #009de9;
 	font: 14px 'Lucida Grande', sans-serif;
 	text-align: right;
+}
+
+span.glyphicon {
+    font-size: 1.3em;  
 }
 
 .btn-circle-on-top {

@@ -30,10 +30,7 @@
 /**
  * Global constants
  */
-var BORDER_LEFT = 0;
-var BORDER_TOP = 0;
-var BORDER_RIGHT = 0;
-var BORDER_BOTTOM = 0;
+var BORDER_BOTTOM = 30;
 
 /**
  * Just for development to rotate scene
@@ -79,15 +76,7 @@ function init() {
 		antialias : true
 	});
 	g_renderer.shadowMap.enabled = true;
-
-	// Support window resize
-	var resizeCallback = function() {
-		g_camera.aspect = window.innerWidth / window.innerHeight;
-		g_camera.updateProjectionMatrix();
-		g_renderer.setSize(window.innerWidth, window.innerHeight);
-	}
-	window.addEventListener('resize', resizeCallback, false);
-	resizeCallback();
+	g_renderer.setClearColor(0xbbd7e9, 1);
 	container.appendChild(g_renderer.domElement);
 
 	// Add motion detector
@@ -128,13 +117,16 @@ function init() {
 	g_gui.close();
 	container.appendChild(g_gui.domElement);
 
+	// Support window resize
 	var resizeCallback = function() {
-		g_panelWidthWebGL = window.innerWidth - BORDER_RIGHT - BORDER_LEFT;
-		g_panelHeightWebGL = window.innerHeight - BORDER_BOTTOM - BORDER_TOP;
+		g_panelWidthWebGL = window.innerWidth  ;
+		g_panelHeightWebGL = window.innerHeight - BORDER_BOTTOM;
+
 		var devicePixelRatio = window.devicePixelRatio || 1;
 		g_renderer.setSize(g_panelWidthWebGL * devicePixelRatio, g_panelHeightWebGL * devicePixelRatio);
 		g_renderer.domElement.style.width = g_panelWidthWebGL + 'px';
 		g_renderer.domElement.style.height = g_panelHeightWebGL + 'px';
+		g_camera.aspect = window.innerWidth / window.innerHeight;
 		g_camera.updateProjectionMatrix();
 	};
 	window.addEventListener('resize', resizeCallback, false);

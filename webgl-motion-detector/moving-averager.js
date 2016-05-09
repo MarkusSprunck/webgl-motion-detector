@@ -59,4 +59,12 @@ MovingAverager.prototype.getValue = function() {
 	}				
 	return (sum / this.nums.length);
 };
-		 	
+	
+MovingAverager.prototype.getStandardDeviation = function() {
+	var sum = 0.0;
+	var mean = this.getValue();
+	for (var i in this.nums) {
+		sum += Math.pow(mean - this.nums[i], 2);
+	}				
+	return Math.pow(sum / this.nums.length, 0.5);
+};

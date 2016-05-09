@@ -139,6 +139,7 @@ function SimpleMotionDetector(object) {
 		var cubeWidth = WIDTH / PIXELS_HORIZONTAL - 1 | 0;
 		var cubeHeight = HEIGHT / PIXELS_VERTICAL - 1 | 0;
 
+		// draw movements with blue and green color
 		var yTopPosition = Number.MAX_VALUE;
 		for (var y = 0; y < PIXELS_VERTICAL - 1; y++) {
 			for (var x = 0; x < PIXELS_HORIZONTAL; x++) {
@@ -163,12 +164,29 @@ function SimpleMotionDetector(object) {
 			}
 		}
 
-		// print red cross
-		ctx.fillStyle = '#FF0000';
-		ctx.fillRect(simpleMotionDetector.averageX.getValue() - cubeWidth * 0.5, simpleMotionDetector.averageY.getValue(), cubeWidth * 1.5,
-				cubeHeight * 0.5);
-		ctx.fillRect(simpleMotionDetector.averageX.getValue(), simpleMotionDetector.averageY.getValue() - cubeHeight * 0.5, cubeWidth * 0.5,
-				cubeHeight * 1.5);
+		// draw orange ellipse for two times empirical standard deviation around
+		// center
+		var valueX = simpleMotionDetector.averageX.getValue();
+		var stddevX = simpleMotionDetector.averageX.getStandardDeviation();
+		var varianceX = stddevX * stddevX * 4;
+		var valueY = simpleMotionDetector.averageY.getValue();
+		var stddevY = simpleMotionDetector.averageY.getStandardDeviation();
+		var varianceY = stddevY * stddevY * 4;
+		for (var y = 0; y < PIXELS_VERTICAL - 1; y++) {
+			for (var x = 0; x < PIXELS_HORIZONTAL; x++) {
+				var xPos = x * WIDTH / PIXELS_HORIZONTAL;
+				var yPos = y * HEIGHT / PIXELS_VERTICAL;
+				if ((xPos - valueX) * (xPos - valueX) / varianceX + (yPos - valueY) * (yPos - valueY) / varianceY < 1) {
+					ctx.fillStyle = '#F87217';
+					ctx.fillRect(xPos, yPos, cubeWidth, cubeHeight);
+				}
+			}
+		}
+
+		// draw red cross on center
+		ctx.fillStyle = '#AA0000';
+		ctx.fillRect(simpleMotionDetector.averageX.getValue() - cubeWidth * 0.5, simpleMotionDetector.averageY.getValue(), cubeWidth * 1.5, cubeHeight * 0.5);
+		ctx.fillRect(simpleMotionDetector.averageX.getValue(), simpleMotionDetector.averageY.getValue() - cubeHeight * 0.5, cubeWidth * 0.5, cubeHeight * 1.5);
 	}
 
 	SimpleMotionDetector.prototype.terminate = function() {

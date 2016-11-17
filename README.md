@@ -1,7 +1,7 @@
 Teddy Regards You!
 ==================
 
-An extremely fast and simple webgl motion detector. Start application here https://webgl-examples.appspot.com/teddy-regards-you/index.html
+An extremely fast and simple motion detector. Start application here https://webgl-examples.appspot.com/teddy-regards-you/index.html
 
 You should see someting like this:
 

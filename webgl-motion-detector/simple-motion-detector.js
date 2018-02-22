@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013-2016, Markus Sprunck
+ * Copyright (C) 2013-2017, Markus Sprunck
  * 
  * All rights reserved.
  * 
@@ -112,7 +112,7 @@ function SimpleMotionDetector(object) {
 				video : true
 			}, function(stream) {
 				_that.stream = stream;
-				video.src = window.URL.createObjectURL(stream);
+				video.srcObject = stream
 				APP.videoWidth = PIXELS_HORIZONTAL;
 				APP.videoHeight = PIXELS_VERTICAL;
 				APP.frontCanvas = document.createElement('canvas');
@@ -220,7 +220,20 @@ function SimpleMotionDetector(object) {
 	SimpleMotionDetector.prototype.run = function() {
 		canvas = fx.canvas();
 		texture = canvas.texture(APP.frontCanvas);
-		video.play();
+	    
+	   		var r = confirm("Allow video preview");
+    			if (r == true) {
+     			var promise = video.play();
+				if (promise !== undefined) {
+			    		promise.catch(error => {
+			        		console.log("Auto-play was prevented");
+			    		}).then(() => {
+			    		    console.log("Video started");
+			  	  	});
+				}
+	  		}
+	
+
 		this.analyseVideo();
 	}
 

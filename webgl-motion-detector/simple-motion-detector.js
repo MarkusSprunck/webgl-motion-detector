@@ -98,35 +98,40 @@ function SimpleMotionDetector(object) {
 	this.stream;
 	document.body.appendChild(canvas);
 
-	SimpleMotionDetector.prototype.init = function() {
+	SimpleMotionDetector.prototype.init = function () {
 
-		simpleMotionDetector = this;
+    	simpleMotionDetector = this;
 
-		navigator.getUserMedia = navigator.mozGetUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia;
+    	var _that = this;
+    	video = document.createElement('video');
 
-		var _that = this;
-		video = document.createElement('video');
-		if (navigator.getUserMedia) {
-			navigator.getUserMedia({
-				audio : false,
-				video : true
-			}, function(stream) {
-				_that.stream = stream;
-				video.srcObject = stream
-				APP.videoWidth = PIXELS_HORIZONTAL;
-				APP.videoHeight = PIXELS_VERTICAL;
-				APP.frontCanvas = document.createElement('canvas');
-				APP.frontCanvas.width = APP.videoWidth;
-				APP.frontCanvas.height = APP.videoHeight * 2;
-				APP.ctx = APP.frontCanvas.getContext('2d');
-				APP.comp = [];
-				simpleMotionDetector.run();
-			}, function(e) {
-			});
-		} else {
-			$("#error-message").text("Your browser does not seem to support UserMedia (video).");
-		}
-	}
+    	if (navigator.mediaDevices) {
+
+    		navigator.mediaDevices.getUserMedia({
+    			audio: false,
+    			video: true
+    		}).then(
+    			function (stream) {
+    				video.srcObject = stream;
+    				_that.stream = stream;
+
+    				APP.videoWidth = PIXELS_HORIZONTAL;
+    				APP.videoHeight = PIXELS_VERTICAL;
+    				APP.frontCanvas = document.createElement('canvas');
+    				APP.frontCanvas.width = APP.videoWidth;
+    				APP.frontCanvas.height = APP.videoHeight * 2;
+    				APP.ctx = APP.frontCanvas.getContext('2d');
+    				APP.comp = [];
+    				simpleMotionDetector.run();
+    			},
+    			function (err) {
+    				$("#error-message").text("The following error occurred: " + err.name);
+    			}
+    		)
+    	} else {
+    		$("#error-message").text("Your browser does not seem to support UserMedia (video).");
+    	}
+    }
 
 	SimpleMotionDetector.prototype.analyisMotionPicture = function() {
 		videoContext.drawImage(canvas, 0, 0);

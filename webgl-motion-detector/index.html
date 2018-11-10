@@ -103,12 +103,12 @@
 	<script type="text/javascript" src="webgl_motion_detector.js"></script>
 
 	<script>
-	
-	
+
 		// Create scene and render
 		if (Detector.webgl) {
 			init();
 			animate();
+       	    g_gui.open();
 		} else {
 			$("#myModal").modal();
 			$("#error-message").text("Your browser does not seem to support WebGL.");
@@ -118,7 +118,7 @@
 			if ( !g_motionDetector.isVideoRunning ) {
 				$("#myModal").modal();
 			}
-		}, 1000);
+		}, 3000);
 	
 	</script>
 

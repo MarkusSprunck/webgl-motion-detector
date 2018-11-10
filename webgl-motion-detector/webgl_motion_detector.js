@@ -114,7 +114,6 @@ function init() {
 	g_gui.domElement.style.position = 'absolute';
 	g_gui.domElement.style.right = '10px';
 	g_gui.domElement.style.top = '10px';
-	g_gui.close();
 	container.appendChild(g_gui.domElement);
 
 	// Support window resize
